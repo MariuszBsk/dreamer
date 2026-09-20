@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>Dreamer Music | Music Curator &amp; Label</title>
+<meta name="description" content="Dreamer Records – music curator and label for downtempo, future garage and wave music.">
+<link rel="icon" href="https://fordreamers.org/wp-content/uploads/2024/07/cropped-dreamer-icon-270x270.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #050505;
+    --card: #131416;
+    --card-2: #1d1f23;
+    --ink: #f3f4f6;
+    --muted: #a9afb8;
+    --dark: #0e0f11;
+    --dark-line: #26292f;
+    --accent: #6d4aff;
+    --accent-dark: #5636e6;
+    --accent-text: #b7a8ff;
+    --wrap: 1320px;
+    --pad: clamp(16px, 3.4vw, 44px);
+    --header-h: 68px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  button { font: inherit; }
+  :focus-visible { outline: 3px solid var(--accent-text); outline-offset: 3px; }
+  .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--pad); }
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  /* ---------- Header (dark bar, hamburger left, CTA right) ---------- */
+  .site-header { position: sticky; top: 0; z-index: 60; background: var(--dark); color: #fff; border-bottom: 1px solid var(--dark-line); }
+  .header-row { display: flex; align-items: center; height: var(--header-h); gap: 18px; padding-right: 0; }
+  .menu-btn {
+    display: none; width: 44px; height: 44px; background: none; border: 0; color: #fff; cursor: pointer;
+    place-items: center; margin-left: -8px;
+  }
+  .menu-btn svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 3; stroke-linecap: round; fill: none; }
+  .logo { display: flex; align-items: center; flex-shrink: 0; }
+  .logo img { height: 34px; width: auto; }
+  .logo-text { font-weight: 800; font-size: 1.15rem; letter-spacing: .02em; text-transform: uppercase; }
+  .nav { display: flex; align-items: center; gap: 2px; margin-left: 14px; }
+  .nav > li { position: relative; }
+  .nav a {
+    display: block; padding: 10px 12px; font-weight: 600; font-size: .86rem;
+    text-transform: uppercase; letter-spacing: .04em; color: #fff;
+  }
+  .nav a:hover { color: #c9bcff; }
+  .dropdown {
+    position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--dark);
+    border: 1px solid var(--dark-line); padding: 6px; display: none;
+  }
+  .has-dropdown:hover .dropdown, .has-dropdown:focus-within .dropdown { display: block; }
+  .dropdown a { white-space: nowrap; }
+  .cta {
+    margin-left: auto; align-self: stretch; display: flex; align-items: center;
+    padding: 0 var(--pad) 0 24px; background: var(--accent); color: #fff;
+    font-weight: 700; font-size: .95rem; text-transform: uppercase; letter-spacing: .03em;
+    margin-right: calc(-1 * var(--pad));
+  }
+  .cta:hover { background: var(--accent-dark); }
+  .mobile-only { display: none; }
+
+  @media (max-width: 980px) {
+    .menu-btn { display: grid; }
+    .nav {
+      position: absolute; top: var(--header-h); left: 0; right: 0; margin: 0;
+      flex-direction: column; align-items: stretch; gap: 0; padding: 6px var(--pad) 18px;
+      background: var(--dark); border-top: 1px solid var(--dark-line); display: none;
+    }
+    .nav.open { display: flex; }
+    .nav a { padding: 15px 2px; font-size: .95rem; border-bottom: 1px solid var(--dark-line); }
+    .dropdown { position: static; display: block; border: 0; padding: 0 0 0 16px; }
+    .dropdown a { font-weight: 500; }
+    .mobile-only { display: block; }
+  }
+
+  /* ---------- Hero: newest release, playable ---------- */
+  .hero { position: relative; overflow: hidden; color: #fff; background: #26303a; isolation: isolate; }
+  .hero-bg {
+    position: absolute; inset: -40px; z-index: -2; background-size: cover; background-position: center;
+    filter: blur(26px) saturate(1.15); transform: scale(1.1);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(10,14,20,.25) 0%, rgba(10,14,20,.55) 100%);
+  }
+  .hero-inner {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: clamp(28px, 5vw, 56px) var(--pad) clamp(30px, 5vw, 56px);
+  }
+  .hero-label { margin: 0 0 18px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+  .hero-cover {
+    position: relative; width: min(72vw, 372px); aspect-ratio: 1; background: #33404c;
+    box-shadow: 0 18px 50px rgba(0,0,0,.35);
+  }
+  .hero-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-cover .play { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-title { margin: 26px 0 0; font-size: clamp(1.9rem, 5.5vw, 3.2rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: .01em; }
+  .hero-artist { margin: 12px 0 0; font-size: clamp(1.15rem, 3.4vw, 1.9rem); font-weight: 600; text-transform: uppercase; line-height: 1.25; }
+  .sc-wrap { width: min(100%, 640px); margin-top: 26px; box-shadow: 0 12px 34px rgba(0,0,0,.45); }
+  .sc-wrap iframe { display: block; width: 100%; border: 0; }
+  .hero-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
+  .btn {
+    display: inline-block; padding: 13px 26px; font-weight: 700; font-size: .85rem;
+    text-transform: uppercase; letter-spacing: .06em; background: #fff; color: #0b0b0d;
+  }
+  .btn:hover { background: #e7e0ff; }
+  .btn.outline { background: transparent; color: #fff; border: 2px solid #fff; padding: 11px 24px; }
+  .btn.outline:hover { background: rgba(255,255,255,.16); }
+  .hero-bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: rgba(255,255,255,.2); }
+  .hero-bar span { display: block; height: 100%; width: 0; background: #fff; }
+
+  /* ---------- Play button (shared by hero + tiles) ---------- */
+  .play {
+    border: 0; padding: 0; cursor: pointer; background: transparent; display: grid; place-items: center; color: #fff;
+  }
+  .play .ring {
+    width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; display: grid; place-items: center;
+    background: rgba(0,0,0,.08); transition: transform .2s ease, background .2s ease;
+  }
+  .play:hover .ring { background: rgba(0,0,0,.28); transform: scale(1.05); }
+  .play svg { width: 44px; height: 44px; fill: #fff; }
+  .play .i-pause { display: none; }
+  .play.is-playing .i-play { display: none; }
+  .play.is-playing .i-pause { display: block; }
+  .play .i-play { margin-left: 5px; }
+
+  /* ---------- Section bar (white, slanted end, circle arrow) ---------- */
+  .section { padding-top: 34px; }
+  .bar {
+    display: flex; align-items: center; justify-content: space-between; height: 66px; padding: 0 20px 0 24px;
+    background: linear-gradient(115deg, var(--card) calc(100% - 110px), var(--card-2) calc(100% - 109px));
+    margin-bottom: 30px; border: 1px solid #1b1d21;
+  }
+  .bar h2 { margin: 0; font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+  .bar a.more {
+    display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--ink); margin-right: 8px;
+  }
+  .bar a.more:hover { background: var(--ink); color: #050505; }
+  .bar a.more svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- Tiles ---------- */
+  .tiles { display: grid; gap: 30px 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 640px)  { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 20px; } }
+  @media (min-width: 900px)  { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 1180px) { .tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+  .card { position: relative; min-width: 0; }
+  .cover { position: relative; aspect-ratio: 1; background: var(--card-2); transition: transform .25s ease, box-shadow .25s ease; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .card:hover .cover, .card:focus-within .cover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.1); }
+  .cover .play { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; opacity: 0; transition: opacity .2s ease; }
+  .cover .play .ring { width: 78px; height: 78px; border-width: 3px; }
+  .cover .play svg { width: 34px; height: 34px; }
+  .card:hover .play, .play:focus-visible, .play.is-playing { opacity: 1; }
+  .cover .play::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.28); z-index: -1; }
+  .prog { position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: #fff; }
+
+  /* touch devices: no hover, so always show a small play button */
+  @media (hover: none) {
+    .cover .play { opacity: 1; place-items: end end; padding: 8px; }
+    .cover .play::before { display: none; }
+    .cover .play .ring { width: 46px; height: 46px; border-width: 2px; background: rgba(0,0,0,.45); }
+    .cover .play svg { width: 20px; height: 20px; }
+    .cover .play .i-play { margin-left: 2px; }
+    .card:hover .cover { transform: none; box-shadow: none; }
+  }
+
+  .meta { display: block; padding-top: 16px; }
+  .card-title { margin: 0; font-size: 1rem; font-weight: 700; text-transform: uppercase; line-height: 1.32; letter-spacing: .01em; overflow-wrap: anywhere; }
+  .card-sub { margin: 6px 0 0; font-size: 1rem; font-weight: 400; color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; }
+  .card-date { margin: 4px 0 0; font-size: .85rem; font-weight: 600; color: var(--accent-text); }
+  .meta:hover .card-title, .artist-card a:hover .card-title { color: var(--accent-text); }
+  .pill {
+    position: absolute; top: 0; left: 0; z-index: 3; padding: 7px 12px; font-size: .72rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .06em; background: var(--accent); color: #fff;
+  }
+  .pill:hover { background: #fff; color: #0b0b0d; }
+  .artist-card .cover .play { display: none; }
+
+  /* ---------- Submission ---------- */
+  .submit-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  .submit {
+    display: flex; flex-direction: column; justify-content: space-between; gap: 36px; min-height: 210px;
+    padding: clamp(20px, 3vw, 32px); background: var(--card); color: #fff; border: 1px solid var(--dark-line);
+  }
+  .submit:hover { background: var(--card-2); border-color: var(--accent); }
+  .submit h3 { margin: 0 0 8px; font-size: 1.35rem; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+  .submit p { margin: 0; color: #b9c0c7; max-width: 38ch; }
+  .submit .go { font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-text); }
+  @media (max-width: 720px) { .submit-grid { grid-template-columns: 1fr; } .submit { min-height: 170px; gap: 22px; } }
+
+  /* ---------- Footer ---------- */
+  .site-footer { margin-top: 70px; background: var(--dark); color: #fff; padding: 36px 0 44px; border-top: 1px solid var(--dark-line); }
+  .footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .footer-links a { color: #c9d0d6; }
+  .footer-links a:hover { color: #fff; }
+  .copy { margin: 24px 0 0; color: #8d959d; font-size: .85rem; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 22px; z-index: 100; transform: translate(-50%, 20px);
+    width: min(92vw, 440px); padding: 14px 18px; background: #f3f4f6; color: #0b0b0d;
+    font-size: .92rem; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .toast a { color: var(--accent-dark); text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cover, .play .ring, .cover .play { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+
+    <a class="logo" href="#top" aria-label="Dreamer Records – home">
+      <img src="https://fordreamers.org/wp-content/uploads/2024/07/dreamerlogositev20.png" alt="Dreamer Records"
+           onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-text',textContent:'Dreamer Records'}))">
+    </a>
+
+    <ul class="nav" id="nav">
+      <li><a href="https://fordreamers.org/">Home</a></li>
+      <li><a href="https://fordreamers.org/releases/">Music</a></li>
+      <li><a href="https://fordreamers.org/artists/">Artists</a></li>
+      <li class="has-dropdown">
+        <a href="https://fordreamers.org/ytsubmission/" aria-haspopup="true">Submission</a>
+        <ul class="dropdown">
+          <li><a href="https://fordreamers.org/ytsubmission/">YouTube Submission</a></li>
+          <li><a href="https://fordreamers.org/labelsubmission/">Label Submission</a></li>
+        </ul>
+      </li>
+      <li><a href="https://merch.fordreamers.org/">Merch</a></li>
+      <li><a href="https://fordreamers.org/galleries/dreamer-wallpapers/">Wallpapers</a></li>
+      <li><a href="https://fordreamers.org/contact/">Contact</a></li>
+      <li class="mobile-only"><a href="https://soundcloud.com/dreamer_records">SoundCloud</a></li>
+      <li class="mobile-only"><a href="https://www.beatport.com/label/dreamer-records/117367">Beatport</a></li>
+      <li class="mobile-only"><a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ">YouTube</a></li>
+      <li class="mobile-only"><a href="https://www.instagram.com/imdreameryt/">Instagram</a></li>
+    </ul>
+
+    <a class="cta" href="https://fordreamers.org/labelsubmission/">Submit music</a>
+  </div>
+</header>
+
+<main id="top">
+  <h1 class="sr-only">Dreamer Music – music curator &amp; label</h1>
+
+  <!-- Hero: newest release, playable (filled by script) -->
+  <section class="hero" id="hero" aria-label="Latest release"></section>
+
+  <!-- Out now -->
+  <section class="section" aria-labelledby="out-now">
+    <div class="wrap">
+      <div class="bar">
+        <h2 id="out-now">Out now</h2>
+        <a class="more" href="https://fordreamers.org/releases/" aria-label="More releases">
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="tiles" id="outNow"></div>
+    </div>
+  </section>
+
+  <!-- Out soon -->
+  <section class="section" aria-labelledby="out-soon" id="soonSection" hidden>
+    <div class="wrap">
+      <div class="bar">
+        <h2 id="out-soon">Out soon</h2>
+        <a class="more" href="https://fordreamers.org/releases/" aria-label="More upcoming releases">
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="tiles" id="outSoon"></div>
+    </div>
+  </section>
+
+  <!-- Artists -->
+  <section class="section" aria-labelledby="artists">
+    <div class="wrap">
+      <div class="bar">
+        <h2 id="artists">Our dream team</h2>
+        <a class="more" href="https://fordreamers.org/artists/" aria-label="More artists">
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="tiles" id="artistTiles"></div>
+    </div>
+  </section>
+
+  <!-- Submissions -->
+  <section class="section" aria-labelledby="submit">
+    <div class="wrap">
+      <div class="bar">
+        <h2 id="submit">Send us your music</h2>
+        <span></span>
+      </div>
+      <div class="submit-grid">
+        <a class="submit" href="https://fordreamers.org/labelsubmission/">
+          <div>
+            <h3>Label submission</h3>
+            <p>Want to release with Dreamer Records? Send us your track.</p>
+          </div>
+          <span class="go">Submit a track</span>
+        </a>
+        <a class="submit" href="https://fordreamers.org/ytsubmission/">
+          <div>
+            <h3>YouTube submission</h3>
+            <p>Get your track on the Dreamer YouTube channel.</p>
+          </div>
+          <span class="go">Submit a track</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-row">
+      <a class="logo" href="#top" aria-label="Dreamer Records – back to top">
+        <img src="https://fordreamers.org/wp-content/uploads/2024/07/dreamerlogositev20.png" alt="Dreamer Records"
+             onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-text',textContent:'Dreamer Records'}))">
+      </a>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://soundcloud.com/dreamer_records">SoundCloud</a>
+        <a href="https://www.beatport.com/label/dreamer-records/117367">Beatport</a>
+        <a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ">YouTube</a>
+        <a href="https://www.instagram.com/imdreameryt/">Instagram</a>
+        <a href="https://merch.fordreamers.org/">Merch</a>
+        <a href="https://fordreamers.org/contact/">Contact</a>
+      </nav>
+    </div>
+    <p class="copy">© <span id="year">2026</span> Dreamer Records</p>
+  </div>
+</footer>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+(function () {
+  var U = 'https://fordreamers.org/wp-content/uploads/';
+  var SITE = 'https://fordreamers.org';
+  var R = SITE + '/releases/';
+
+  // date = release date (YYYY-MM-DD). Releases dated after today appear under "Out soon".
+  // audio = short preview (full URL or path relative to fordreamers.org)
+  var releases = [
+    { title: 'Wallowing',                  artist: 'Urban Waifs',         date: '2026-09-18', img: '2026/08/web-8.jpg',                     slug: 'urban-waifs-wallowing',                 link: 'https://link.fordreamers.org/fxHU', audio: U + '2026/08/uwwallowinglooped.mp3',
+      sc: 'https://soundcloud.com/dreamer_records/urban-waifs-wallowing-1' },
+    { title: 'DAMAGE',                     artist: 'KLMRN x FRENCH CULT', date: '2026-09-11', img: '2026/08/web-6.jpg',                     slug: 'klmrn-x-french-cult-damage',            link: 'https://link.fordreamers.org/clps', audio: U + '2026/08/damageloopedklmrn-1.mp3' },
+    { title: 'Wandering',                  artist: 'FM síntesis',         date: '2026-09-11', img: '2026/08/web-7.jpg',                     slug: 'fm-sintesis-wandering',                 link: 'https://link.fordreamers.org/zlmR', audio: U + '2026/08/fmsintesiswanderinglooped.mp3' },
+    { title: 'FADING MEMORY',              artist: 'Anzelo',              date: '2026-09-04', img: '2026/08/web-3.jpg',                     slug: 'anzelo-fading-memory',                  link: 'https://link.fordreamers.org/UBd6', audio: SITE + '/audio/fmanzelolooped.mp3' },
+    { title: 'Do It Again',                artist: 'R4VEN',               date: '2026-09-04', img: '2026/08/web-5.jpg',                     slug: 'r4ven-do-it-again',                     link: 'https://link.fordreamers.org/2IQR', audio: U + '2026/08/diaravenlooped.mp3' },
+    { title: 'relentless',                 artist: 'Øtherside.',          date: '2026-08-28', img: '2026/08/web-9.jpg',                     slug: 'otherside-relentless',                  link: 'https://link.fordreamers.org/xnWK', audio: U + '2026/08/relentlessothersidelooped.mp3' },
+    { title: 'Another World EP',           artist: 'J.Treegarden',        date: '2026-08-28', img: '2026/08/web-2.jpg',                     slug: 'j-treegarden-another-world-ep',         link: 'https://link.fordreamers.org/mjla', audio: SITE + '/audio/awloopedjt.mp3' },
+    { title: 'LAVINA',                     artist: 'nobodyinfact',        date: '2026-08-27', img: '2026/08/presave-2-1024x1024.jpg',       slug: 'nobodyinfact-lavina',                   link: 'https://link.fordreamers.org/7EuC', audio: SITE + '/audio/lavinabobodylooped.mp3' },
+    { title: 'Be With Me',                 artist: 'Ipnosis',             date: '2026-08-21', img: '2026/07/coverartlab-1-1024x1024.jpg',   slug: 'ipnosis-be-with-me',                    link: 'https://link.fordreamers.org/COJr', audio: SITE + '/audio/ibwmlooped.mp3' },
+    { title: 'Falling Down',               artist: 'Pamex',               date: '2026-08-14', img: '2026/08/coverartlabel-1024x1024.png',   slug: 'pamex-falling-down',                    link: 'https://link.fordreamers.org/ZAzi', audio: SITE + '/audio/fdplooped.mp3' },
+    { title: 'CRIMINAL',                   artist: 'HØRU',                date: '2026-08-14', img: '2026/07/coverartlabel-3-1024x1024.jpg', slug: 'horu-criminal',                         link: 'https://link.fordreamers.org/BWNR', audio: SITE + '/audio/hclooped.mp3' },
+    { title: 'Come Alive',                 artist: 'Skyhëx, Godsent',     date: '2026-08-14', img: '2026/08/coverartlab-1024x1024.jpg',     slug: 'skyhex-godsent-come-alive',             link: 'https://link.fordreamers.org/yQcd', audio: SITE + '/audio/scalooped.mp3' },
+    { title: 'Your Kiss (sidejoy. Remix)', artist: 'Big in Borneo',       date: '2026-08-07', img: '2026/07/coverartlab-1024x1024.jpg',     slug: 'big-in-borneo-your-kiss-sidejoy-remix', link: 'https://link.fordreamers.org/bdxP', audio: SITE + '/audio/bibyksrlooped.mp3' },
+    { title: 'Northstar',                  artist: 'Fade Lumen',          date: '2026-08-07', img: '2026/07/presave-2-1024x1024.jpg',       slug: 'fade-lumen-northstar',                  link: 'https://link.fordreamers.org/M86V', audio: SITE + '/audio/flnlooped.mp3' },
+    { title: 'Burden Of Existence',        artist: 'thewildspirit',       date: '2026-09-25', img: '2026/09/web.jpg',                       slug: 'thewildspirit-burden-of-existence',     link: 'https://link.fordreamers.org/gtuf', audio: U + '2026/09/boethspiritlp.mp3' },
+    { title: 'Theory',                     artist: 'KLIM, LaZz',          date: '2026-09-25', img: '2026/09/web-1.jpg',                     slug: 'klim-x-lazz-theory',                    link: 'https://link.fordreamers.org/ENIU', audio: U + '2026/09/theoryklimlooped.mp3' },
+    { title: 'only u',                     artist: 'Ipnosis',             date: '2026-10-02', img: '2026/09/web-2.jpg',                     slug: 'ipnosis-only-u',                        link: 'https://link.fordreamers.org/bBoW', audio: U + '2026/09/onlyuloopedipnopsis.mp3' }
+  ];
+
+  var artists = [
+    { name: 'Enkalinan',        genres: 'Electronic / Future Garage',                       img: '2024/07/Enkalinan-Profile-Pic.jpg',          slug: 'enkalinan' },
+    { name: 'Abbey8k',          genres: 'Downtempo / Electronic / Future Garage',           img: '2024/07/artist-pic.jpg',                     slug: 'abbey8k' },
+    { name: 'Urban Waifs',      genres: 'Downtempo / Future Garage',                        img: '2024/07/Untitled_5.1.1-1-1024x1024.png',     slug: 'urban-waifs' },
+    { name: 'STARLIGHT EXSERT', genres: 'Ambient / Downtempo / Future Garage',              img: '2024/07/Profile-pic.jpg',                    slug: 'starlight-exsert' },
+    { name: 'BerserkerCrux',    genres: 'Electronic / Wave',                                img: '2024/07/artistpik.jpg',                      slug: 'berserkercrux' },
+    { name: 'Ert',              genres: 'Ambient / Downtempo / Electronic / Future Garage', img: '2024/08/ert-pic.jpg',                        slug: 'ert' },
+    { name: 'A New Hope',       genres: 'Ambient / Electronic / Future Garage / Wave',      img: '2024/08/453467396_1145857776495100_7368235150574295492_n.jpg', slug: 'anh' },
+    { name: 'FM Sintesis',      genres: 'Ambient / Electronic / Future Garage',             img: '2024/08/avatar.jpg',                         slug: 'fms' },
+    { name: 'Atlantis Reborn',  genres: 'Ambient / Downtempo / Electronic / Future Garage', img: '2024/08/artistpic.jpg',                      slug: 'ar' },
+    { name: 'Luga',             genres: 'Ambient / Downtempo / Electronic / Future Garage', img: '2024/08/lugapic.png',                        slug: 'luga' },
+    { name: 'hystvme',          genres: 'Electronic / Future Garage',                       img: '2024/10/hystvme-pic.jpg',                    slug: 'hystvme' },
+    { name: 'Shark4Sale',       genres: 'Electronic / Wave',                                img: '2024/10/pic-300x300.jpg',                    slug: 'shark4sale' }
+  ];
+
+  var PLAY_SVG  = '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.500v15l13-7.500z"/></svg>';
+  var PAUSE_SVG = '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function niceDate(iso) {
+    var p = iso.split('-');
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return parseInt(p[2], 10) + ' ' + m[parseInt(p[1], 10) - 1] + ' ' + p[0];
+  }
+  function img(src, alt) {
+    return '<img src="' + esc(U + src) + '" alt="' + esc(alt) + '" loading="lazy" onerror="this.style.display=\'none\'">';
+  }
+  function playBtn(r, big) {
+    return '<button class="play" type="button" data-slug="' + esc(r.slug) + '" data-audio="' + esc(r.audio) + '" ' +
+           'aria-label="Play preview: ' + esc(r.title) + ' by ' + esc(r.artist) + '">' +
+           '<span class="ring">' + PLAY_SVG + PAUSE_SVG + '</span></button>';
+  }
+
+  function releaseCard(r, upcoming) {
+    return '<article class="card">' +
+      (upcoming ? '<a class="pill" href="' + esc(r.link) + '">Pre-save now</a>' : '') +
+      '<div class="cover">' + img(r.img, 'Cover: ' + r.artist + ' – ' + r.title) +
+        playBtn(r) + '<span class="prog" data-prog="' + esc(r.slug) + '"></span></div>' +
+      '<a class="meta" href="' + esc(R + r.slug + '/') + '">' +
+        '<h3 class="card-title">' + esc(r.title) + '</h3>' +
+        '<p class="card-sub">' + esc(r.artist) + '</p>' +
+        (upcoming ? '<p class="card-date">' + niceDate(r.date) + '</p>' : '') +
+      '</a></article>';
+  }
+  function artistCard(a) {
+    return '<article class="card artist-card"><a href="' + SITE + '/artists/' + esc(a.slug) + '/">' +
+      '<div class="cover">' + img(a.img, a.name) + '</div>' +
+      '<div class="meta"><h3 class="card-title">' + esc(a.name) + '</h3>' +
+      '<p class="card-sub">' + esc(a.genres) + '</p></div></a></article>';
+  }
+
+  // ----- split releases by date -----
+  var now = new Date();
+  var today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  var released = releases.filter(function (r) { return r.date <= today; })
+                         .sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+  var soon = releases.filter(function (r) { return r.date > today; })
+                     .sort(function (a, b) { return a.date > b.date ? 1 : -1; });
+  var latest = released[0];
+  var outNow = released.slice(1, 13); // latest one lives in the hero
+
+  // ----- hero: newest release, playable -----
+  if (latest) {
+    var hero = document.getElementById('hero');
+    hero.innerHTML =
+      '<div class="hero-bg" style="background-image:url(\'' + esc(U + latest.img) + '\')"></div>' +
+      '<div class="hero-inner">' +
+        '<p class="hero-label">Latest release</p>' +
+        '<div class="hero-cover">' + img(latest.img, 'Cover: ' + latest.artist + ' – ' + latest.title) + (latest.sc ? '' : playBtn(latest, true)) + '</div>' +
+        '<h2 class="hero-title">' + esc(latest.title) + '</h2>' +
+        '<p class="hero-artist">' + esc(latest.artist) + '</p>' +
+        (latest.sc
+          ? '<div class="sc-wrap"><iframe id="scPlayer" title="SoundCloud player: ' + esc(latest.title) + ' by ' + esc(latest.artist) + '" ' +
+            'width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" ' +
+            'src="https://w.soundcloud.com/player/?url=' + encodeURIComponent(latest.sc) +
+            '&color=%236d4aff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe></div>'
+          : '') +
+        '<div class="hero-links">' +
+          '<a class="btn" href="' + esc(latest.link) + '">Stream / buy</a>' +
+          '<a class="btn outline" href="' + esc(R + latest.slug + '/') + '">Release page</a>' +
+        '</div>' +
+      '</div>' +
+      (latest.sc ? '' : '<div class="hero-bar"><span data-prog="' + esc(latest.slug) + '"></span></div>');
+  }
+
+  document.getElementById('outNow').innerHTML = outNow.map(function (r) { return releaseCard(r, false); }).join('');
+  if (soon.length) {
+    document.getElementById('outSoon').innerHTML = soon.map(function (r) { return releaseCard(r, true); }).join('');
+    document.getElementById('soonSection').hidden = false;
+  }
+  document.getElementById('artistTiles').innerHTML = artists.map(artistCard).join('');
+  document.getElementById('year').textContent = now.getFullYear();
+
+  // ----- one shared audio player for hero + tiles -----
+  var audio = new Audio();
+  audio.preload = 'none';
+  var currentSlug = null;
+
+  function setPlaying(slug, playing) {
+    var buttons = document.querySelectorAll('.play');
+    for (var i = 0; i < buttons.length; i++) {
+      var on = playing && buttons[i].getAttribute('data-slug') === slug;
+      buttons[i].classList.toggle('is-playing', on);
+      var base = buttons[i].getAttribute('aria-label').replace(/^(Play|Pause) preview/, 'Play preview');
+      buttons[i].setAttribute('aria-label', on ? base.replace('Play preview', 'Pause preview') : base);
+    }
+  }
+  function resetProgress() {
+    var bars = document.querySelectorAll('[data-prog]');
+    for (var i = 0; i < bars.length; i++) bars[i].style.width = '0';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.play') : null;
+    if (!btn) return;
+    var slug = btn.getAttribute('data-slug');
+    if (currentSlug === slug && !audio.paused) { audio.pause(); return; }
+    if (currentSlug !== slug) {
+      resetProgress();
+      audio.src = btn.getAttribute('data-audio');
+      currentSlug = slug;
+    }
+    var p = audio.play();
+    if (p && p.catch) p.catch(function (err) { if (err && err.name === 'NotAllowedError') { setPlaying(slug, false); } else { fail(); } });
+  });
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function showToast(html) {
+    toast.innerHTML = html;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 7000);
+  }
+  function fail() {
+    setPlaying(currentSlug, false);
+    resetProgress();
+    showToast('Preview couldn\u2019t be loaded here. <a href="' + R + currentSlug + '/">Listen on the release page</a>');
+  }
+  audio.addEventListener('error', fail);
+
+  audio.addEventListener('play',  function () { setPlaying(currentSlug, true); if (scWidget) { try { scWidget.pause(); } catch (e) {} } });
+  audio.addEventListener('pause', function () { setPlaying(currentSlug, false); });
+  audio.addEventListener('ended', function () { setPlaying(currentSlug, false); resetProgress(); });
+  audio.addEventListener('timeupdate', function () {
+    if (!audio.duration) return;
+    var pct = (audio.currentTime / audio.duration * 100) + '%';
+    var bars = document.querySelectorAll('[data-prog="' + currentSlug + '"]');
+    for (var i = 0; i < bars.length; i++) bars[i].style.width = pct;
+  });
+
+  // ----- SoundCloud hero player: pause tile previews when it starts -----
+  var scWidget = null;
+  function initSC() {
+    var frame = document.getElementById('scPlayer');
+    if (scWidget || !frame || !window.SC || !window.SC.Widget) return;
+    scWidget = window.SC.Widget(frame);
+    scWidget.bind(window.SC.Widget.Events.PLAY, function () {
+      if (!audio.paused) audio.pause();
+    });
+  }
+  initSC();
+  window.addEventListener('load', initSC);
+
+  // ----- mobile menu -----
+  var menuBtn = document.getElementById('menuBtn');
+  var nav = document.getElementById('nav');
+  menuBtn.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+</body>
+</html>
