@@ -130,7 +130,6 @@
   /* the thin line under the newest release (also the playback progress bar) */
   .hero-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255,255,255,.14); }
   .hero-bar span { display: block; height: 100%; width: 0; background: #fff; }
-  #viewTop { scroll-margin-top: var(--header-h); }
 
   /* ---------- Play button (shared by hero + tiles) ---------- */
   .play { border: 0; padding: 0; cursor: pointer; background: transparent; display: grid; place-items: center; color: #fff; }
@@ -227,6 +226,27 @@
   .footer-links a:hover { color: #fff; }
   .copy { margin: 24px 0 0; color: #8d959d; font-size: .85rem; }
 
+  /* ---------- Previous / next page arrows ---------- */
+  .page-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 55;
+    width: 48px; height: 48px; border-radius: 50%; padding: 0; cursor: pointer;
+    display: grid; place-items: center; color: #fff;
+    background: rgba(10, 10, 11, .72); border: 1px solid rgba(255, 255, 255, .28);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    transition: background .2s ease, border-color .2s ease, opacity .2s ease;
+  }
+  .page-arrow.prev { left: 12px; }
+  .page-arrow.next { right: 12px; }
+  .page-arrow svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .page-arrow:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+  .page-arrow:disabled { opacity: .22; cursor: default; }
+  @media (max-width: 720px) {
+    .page-arrow { width: 40px; height: 40px; background: rgba(10, 10, 11, .6); }
+    .page-arrow.prev { left: 5px; }
+    .page-arrow.next { right: 5px; }
+    .page-arrow svg { width: 19px; height: 19px; }
+  }
+
   .toast {
     position: fixed; left: 50%; bottom: 22px; z-index: 100; transform: translate(-50%, 20px);
     width: min(92vw, 440px); padding: 14px 18px; background: #f3f4f6; color: #0b0b0d;
@@ -256,7 +276,6 @@
 
     <ul class="nav" id="nav">
       <li><a href="#/home" data-route="home">Home</a></li>
-      <li><a href="#/out-now" data-route="out-now">Out now</a></li>
       <li><a href="#/music" data-route="music">Music</a></li>
       <li><a href="#/artists" data-route="artists">Artists</a></li>
       <li class="has-dropdown">
@@ -284,7 +303,6 @@
 
   <!-- Newest release (always visible, the music keeps playing while you browse) -->
   <section class="hero" id="hero" aria-label="Latest release"></section>
-  <div id="viewTop"></div>
 
   <!-- HOME -->
   <div class="view" id="view-home" tabindex="-1">
@@ -292,7 +310,7 @@
       <div class="wrap">
         <div class="bar">
           <h2 id="out-now">Out now</h2>
-          <a class="more" href="#/out-now" data-route="out-now" aria-label="All out now releases">
+          <a class="more" href="#/music" data-route="music" aria-label="All releases">
             <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -350,17 +368,6 @@
     </section>
   </div>
 
-  <!-- OUT NOW -->
-  <div class="view" id="view-out-now" tabindex="-1" hidden>
-    <section class="section" aria-label="Out now">
-      <div class="wrap">
-        <div class="bar"><h2>Out now</h2><span></span></div>
-        <div class="tiles" id="allOut"></div>
-        <p class="view-note"><a href="https://fordreamers.org/releases/" target="_blank" rel="noopener">See every release on fordreamers.org</a></p>
-      </div>
-    </section>
-  </div>
-
   <!-- MUSIC -->
   <div class="view" id="view-music" tabindex="-1" hidden>
     <section class="section" aria-label="Music">
@@ -383,9 +390,32 @@
     </section>
   </div>
 
+  <!-- MERCH -->
+  <div class="view" id="view-merch" tabindex="-1" hidden>
+    <section class="section" aria-label="Merch">
+      <div class="wrap">
+        <div class="bar">
+          <h2>Merch</h2>
+          <a class="more" href="https://merch.fordreamers.org/" target="_blank" rel="noopener" aria-label="Open the merch shop in a new tab" title="Open the shop in a new tab">
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+        <div class="tiles" id="allMerch"></div>
+        <p class="view-note"><a href="https://merch.fordreamers.org/collections/all" target="_blank" rel="noopener">Open the full shop &amp; checkout</a></p>
+      </div>
+    </section>
+  </div>
+
   <!-- EMBEDDED PAGES (created by the script) -->
   <div id="frameViews"></div>
 </main>
+
+<button class="page-arrow prev" id="prevPage" type="button" aria-label="Previous page">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+</button>
+<button class="page-arrow next" id="nextPage" type="button" aria-label="Next page">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+</button>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -451,11 +481,23 @@
     { name: 'Shark4Sale',       genres: 'Electronic / Wave',                                img: '2024/10/pic-300x300.jpg',                    slug: 'shark4sale' }
   ];
 
+  // Merch shop (Fourthwall). Prices/products as of the last update of this file.
+  var MERCH_URL = 'https://merch.fordreamers.org/';
+  var merch = [
+    { name: "DREAMER MINIMALIST W", price: '$24.99', slug: 'dreamer-minimalist-w', img: 'https://imgproxy.fourthwall.dev/yoDu6MDO_4mI7Gb7cmKd2xe3o5Yk0441aP_Yfuz9v0o/w:1200/sm:1/enc/miEWYKaMw_p0BX7w/lL6gJNnZbwy2-Uoa/3YkuN4fxCAgzI4q4/-9zSN3WGN7a_d3Np/lBbpquhBINhlsHZg/o8APHvsg8xty6iht/F_5d62jQoe0gORPd/D4bu2zpv2h-fLwBu/ixLDdtDLA85jJdGm/vDPtW7mK0xrCSID8/uNV-nj39Ttw20s3x/UIBqWQZczwy6xkdI/i_gw5d4mutbRZZL2/HSkz8AmGBU73iGlL/488QUMuYq_A.png' },
+    { name: "DREAMER MINIMALIST B", price: '$24.99', slug: 'dreamer-minimalist-b', img: 'https://imgproxy.fourthwall.dev/vZZFDFhUEF1jNIjjO5ZUTjwEmWHtixrpiFlA_TmtDTU/w:1200/sm:1/enc/j0EecmznA8R_MEoM/xoH54KYzPOVytJLv/YKEGbnEifPVJ2Zx5/1CzzlMsMDA5FyX1u/vrJB-Di22AAsYB0g/iDqHUU4Mg_IwsPXq/zZhMVlU49a51I3sB/tbuSYwRYSc8oURUq/Y7gkblEdG2U_Lw4I/SzXfDqTE_gYnRIHB/oKBuGS4lvYmAJqsM/2gTt1DG0lY8wwjw5/4XEQXIN9VBQKDKe9/-JMvlzmHt2LfNgiJ/Xj85sXqlh2o.png' },
+    { name: "WAVEFORM T-SHIRT GEN 2 BW", price: '$20.00', slug: 'waveform-t-shirt-gen-2-bw', img: 'https://imgproxy.fourthwall.dev/gs20cT8X86e-213-V6RyKIFjOJrawspgQ5wHfX9uidQ/w:1200/sm:1/enc/1DplfFo3yrRP46GV/8JP_rcesOi_VWB8f/O9k9ZNgKAwI7-02g/OUy9q_raC0PdZqc4/-V5LZwba_V-YNhsr/HtwblLdUhMasZ-UI/IQZQ0jzB7GHgirOq/4NEWloUmvxCKENg3/3Nd55BTviEyR7LSE/UwzIkdzoU3nCHanm/F7Vw8rdX_s7TVULd/FdigghWlkdPv2JKu/yWtGpaN675S-XAy8/kj0hLWStqxZdMrrc/AzK-1eDuk0Q.png' },
+    { name: "WAVEFORM T-SHIRT WHITE GEN2 SQ", price: '$20.00', slug: 'waveform-t-shirt-white-gen2-sq', img: 'https://imgproxy.fourthwall.dev/yyPgVHyq0e3zuCAGhOtAucrcqBLF7Qx6l7t_nEJxWFA/w:1200/sm:1/enc/c8hq_WdChOcRi8o9/KIn45idvKa3Ft_NL/_6exwbIBrvyhc8Xp/CBTD8vYX9LxxdziP/jTqRhHUbBwLdto11/r91iXufNIQ4BgT1K/Vzn3B2ZOM4P7RzJ0/9792xzqFBeCZts59/ANxJfu8OhhIc99cr/9fiAmmmUscEZP_lF/GOOhpL38G17Qcp-w/oMsHEjiKVCGpLT28/SqsxBlyv1XAhLzQx/qaZas-8CCfpDv4nF/dJMDeNzTq0s.png' },
+    { name: "Dreamer Basic Hoodie", price: '$32.00', slug: 'dreamer-basic-hoodie', img: 'https://imgproxy.fourthwall.dev/RHDgGd7jQdGHa9TrSZqOyFDy-FoHJhD_sDdXpYzg9u0/w:1200/sm:1/enc/UueJcM_MbUfQBOnN/moPzBIgIp9Xzd3cU/tBH-PkcvwCQWje0T/LmCuXb3T5btd5vNV/FNsW4HF-r0iH9f67/FkZ-KYPVjYbJu1VD/CwwPDd67cE0qB-Qb/AMHIWdo4xaKCBJq8/XuWK_Wgh0DSPfpyK/DOhn7fhaVy9zUwGo/2wnqs9Qt36TttA3u/gphUJTljenl174BV/VpaZRz9ZYY6rqAFa/QgYhh7UT7jzJoL1m/LclzP_KDkkw.png' },
+    { name: "DREAMER WHITE LOGO", price: '$20.00', slug: 'dreamer-white-logo', img: 'https://imgproxy.fourthwall.dev/Bmu3peslc1BbolJ66zCh1I0n_M9jCCJ3AAkotL16izQ/w:1200/sm:1/enc/nlNoxJCLj80hEG76/JsymWFd3Lal1fTz9/t2WtYfKVhKWuFS7M/3jjtKgCyXqGYZfcz/24miZwyotLo7-Vmn/izgg4y8N3Uq34nKN/PP1BxtcJBGGI3Fzv/dVKNVh0-wVzI8lBD/nuNa9DLk5lfrc7Us/tLdNIyWFMYRzLPJ-/6x23oiAFhPFewY4T/7j_BRRiQq1zntyYq/Z6SICt5EBtERGZPl/Z_O2Z_KV1fq-Vh_z/Gad4oFsya64.png' },
+    { name: "WAVEFORM HOODIE WHITE LOGO", price: '$42.00', slug: 'waveform-hoodie-white-logo', img: 'https://imgproxy.fourthwall.dev/6ETl_qEWuxyozRU8xuz_cpzHtw7Btl4rTLZzF3zCHWc/w:1200/sm:1/enc/vr34RF4qhDgLo6M0/fTFliZSt5v1PlJuf/O9MrbT9hjZZgmXn_/uxWxr1NuObsXwJCG/Kt13_lDtveXBqE9y/d974ZPiJbQna2QhI/WjgzQziiXSh7lwgC/HW06e6ekzeK2b3OF/YDYQwxxXeSgKJruG/rZ1MOleWGFeREB33/zvDhCH6XwKuY9kdL/rknjsxXoiHgewmXe/VbHGbdp35r0gNs0V/9OIyOj11Y50P_-6n/S4kb732ZubY.png' },
+    { name: "WAVEFORM T-SHIRT WHITE LOGO", price: '$20.00', slug: 'waveform-t-shirt-white-logo', img: 'https://imgproxy.fourthwall.dev/J4ItUY1zkJOkw_Z2h_jvofoJVTu-rPsXVrBQwjLukJA/w:1200/sm:1/enc/kdBK9k1SxSSoxF3Z/jfxcvsizHtRw35Ke/Pet3hlRIGrf6a5kH/IVOfs7QYUQvMkTav/KK1NAhU0OA1Ed3Zq/sTAESuS3Lm1hXxu_/u5KG--xN9rNGWfRu/mfUmmKRx59TuTut3/pBxBgAO7mTj9WSbD/1LJ8fZ4ojioTJEB0/GHfRAHWQCFjRujQg/2o6Ukwa6MICqQ7q6/QMd2NQyOO3T8BUL2/TP3SNm_lkXedKx0_/TT3YyJZnZOk.png' }
+  ];
+
   // Pages that open under the line inside this page (no reload). They are the real fordreamers.org pages.
   var FRAMES = {
     youtube:    { title: 'YouTube submission', url: SITE + '/ytsubmission/' },
     label:      { title: 'Label submission',   url: SITE + '/labelsubmission/' },
-    merch:      { title: 'Merch',              url: 'https://merch.fordreamers.org/' },
     wallpapers: { title: 'Wallpapers',         url: SITE + '/galleries/dreamer-wallpapers/' },
     contact:    { title: 'Contact',            url: SITE + '/contact/' }
   };
@@ -499,6 +541,12 @@
       '<div class="meta"><h3 class="card-title">' + esc(a.name) + '</h3>' +
       '<p class="card-sub">' + esc(a.genres) + '</p></div></a></article>';
   }
+  function merchCard(m) {
+    return '<article class="card artist-card"><a href="' + MERCH_URL + 'products/' + esc(m.slug) + '"' + EXT + '>' +
+      '<div class="cover">' + '<img src="' + esc(m.img) + '" alt="' + esc(m.name) + '" loading="lazy" onerror="this.style.display=\'none\'">' + '</div>' +
+      '<div class="meta"><h3 class="card-title">' + esc(m.name) + '</h3>' +
+      '<p class="card-sub">' + esc(m.price) + '</p></div></a></article>';
+  }
   function fill(id, html) { document.getElementById(id).innerHTML = html; }
 
   // ----- split releases by date -----
@@ -535,9 +583,9 @@
     document.getElementById('soonSection').hidden = false;
   }
   fill('artistTiles', artists.map(artistCard).join(''));
-  fill('allOut', released.map(function (r) { return releaseCard(r, false); }).join(''));
   fill('allMusic', everything.map(function (r) { return releaseCard(r, r.date > today); }).join(''));
   fill('allArtists', artists.map(artistCard).join(''));
+  fill('allMerch', merch.map(merchCard).join(''));
   document.getElementById('year').textContent = now.getFullYear();
 
   // embedded pages: one section per page, the iframe loads the first time it is opened
@@ -637,11 +685,29 @@
   /* =====================================================================
      Navigation without reloading the page
      ===================================================================== */
-  var KEYS = ['home', 'out-now', 'music', 'artists', 'youtube', 'label', 'merch', 'wallpapers', 'contact'];
+  var KEYS = ['home', 'music', 'artists', 'youtube', 'label', 'merch', 'wallpapers', 'contact'];
   var GROUP = { youtube: 'submission', label: 'submission' };
   var menuBtn = document.getElementById('menuBtn');
   var nav = document.getElementById('nav');
   var firstRoute = true;
+  var prevBtn = document.getElementById('prevPage');
+  var nextBtn = document.getElementById('nextPage');
+  var NAMES = { 'home': 'Home', 'music': 'Music', 'artists': 'Artists',
+                'youtube': 'YouTube submission', 'label': 'Label submission',
+                'merch': 'Merch', 'wallpapers': 'Wallpapers', 'contact': 'Contact' };
+  function setArrow(btn, key, prefix) {
+    btn.disabled = !key;
+    btn.setAttribute('data-target', key || '');
+    var label = key ? prefix + ': ' + NAMES[key] : prefix;
+    btn.setAttribute('aria-label', label);
+    btn.title = key ? NAMES[key] : '';
+  }
+  function goArrow(btn) {
+    var k = btn.getAttribute('data-target');
+    if (k) location.hash = '#/' + k;
+  }
+  prevBtn.addEventListener('click', function () { goArrow(prevBtn); });
+  nextBtn.addEventListener('click', function () { goArrow(nextBtn); });
 
   function currentKey() {
     var k = location.hash.replace(/^#\/?/, '');
@@ -668,14 +734,20 @@
       if (on) links[j].setAttribute('aria-current', 'page'); else links[j].removeAttribute('aria-current');
     }
 
-    // open the page right under the line below the newest release
-    if (key === 'home') {
-      if (!firstRoute) window.scrollTo({ top: 0 });
-    } else {
-      var top = document.getElementById('viewTop');
-      if (top.scrollIntoView) top.scrollIntoView({ block: 'start' });
-    }
-    if (fromClick) {
+    // the newest release is only shown on Home; every other page opens right under the menu bar
+    document.getElementById('hero').hidden = (key !== 'home');
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (e0) { window.scrollTo(0, 0); }
+
+    // previous / next page arrows
+    var idx = KEYS.indexOf(key);
+    var prevKey = idx > 0 ? KEYS[idx - 1] : null;
+    var nextKey = idx < KEYS.length - 1 ? KEYS[idx + 1] : null;
+    setArrow(prevBtn, prevKey, 'Previous page');
+    setArrow(nextBtn, nextKey, 'Next page');
+
+    var arrowHasFocus = document.activeElement && document.activeElement.classList &&
+                        document.activeElement.classList.contains('page-arrow');
+    if (fromClick && !arrowHasFocus) {
       var target = document.getElementById('view-' + key);
       if (target && target.focus) { try { target.focus({ preventScroll: true }); } catch (e) {} }
     }
