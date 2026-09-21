@@ -14,13 +14,13 @@
 <style>
   :root {
     color-scheme: dark;
-    --page: #050505;
-    --card: #131416;
-    --card-2: #1d1f23;
+    --page: #000000;
+    --card: #101113;
+    --card-2: #1a1c1f;
     --ink: #f3f4f6;
     --muted: #a9afb8;
-    --dark: #0e0f11;
-    --dark-line: #26292f;
+    --dark: #0a0a0b;
+    --dark-line: #25282d;
     --accent: #6d4aff;
     --accent-dark: #5636e6;
     --accent-text: #b7a8ff;
@@ -42,15 +42,12 @@
   :focus-visible { outline: 3px solid var(--accent-text); outline-offset: 3px; }
   .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--pad); }
   .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-  /* ---------- Sound wave background (reacts to the music) ---------- */
-  #wave { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-  main, .site-footer { position: relative; z-index: 1; }
+  [hidden] { display: none !important; }
 
   /* ---------- Header ---------- */
   .site-header {
     position: sticky; top: 0; z-index: 60; color: #fff;
-    background: rgba(14, 15, 17, .88);
+    background: rgba(10, 10, 11, .94);
     -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--dark-line);
   }
@@ -66,10 +63,11 @@
   .nav { display: flex; align-items: center; gap: 2px; margin-left: 14px; }
   .nav > li { position: relative; }
   .nav a {
-    display: block; padding: 10px 12px; font-weight: 600; font-size: .86rem;
+    display: block; padding: 10px 12px; font-weight: 600; font-size: .84rem;
     text-transform: uppercase; letter-spacing: .04em; color: #fff;
   }
   .nav a:hover { color: #c9bcff; }
+  .nav a.is-active { color: #fff; box-shadow: inset 0 -2px 0 var(--accent); }
   .dropdown {
     position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--dark);
     border: 1px solid var(--dark-line); padding: 6px; display: none;
@@ -85,41 +83,39 @@
   .cta:hover { background: var(--accent-dark); }
   .mobile-only { display: none; }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
     .menu-btn { display: grid; }
     .nav {
       position: absolute; top: var(--header-h); left: 0; right: 0; margin: 0;
       flex-direction: column; align-items: stretch; gap: 0; padding: 6px var(--pad) 18px;
       background: var(--dark); border-top: 1px solid var(--dark-line); display: none;
+      max-height: calc(100vh - var(--header-h)); overflow-y: auto;
     }
     .nav.open { display: flex; }
     .nav a { padding: 15px 2px; font-size: .95rem; border-bottom: 1px solid var(--dark-line); }
+    .nav a.is-active { box-shadow: none; color: var(--accent-text); }
     .dropdown { position: static; display: block; border: 0; padding: 0 0 0 16px; background: none; }
     .dropdown a { font-weight: 500; }
     .mobile-only { display: block; }
   }
 
   /* ---------- Hero: newest release, playable ---------- */
-  .hero { position: relative; overflow: hidden; color: #fff; background: transparent; isolation: isolate; }
+  .hero { position: relative; overflow: hidden; color: #fff; background: #000; isolation: isolate; border-bottom: 1px solid var(--dark-line); }
   .hero-bg {
     position: absolute; inset: -40px; z-index: -2; background-size: cover; background-position: center;
-    filter: blur(26px) saturate(1.15); transform: scale(1.1); opacity: .5;
+    filter: blur(26px) saturate(1.15); transform: scale(1.1); opacity: .55;
   }
   .hero::before {
     content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(5,5,5,.15) 0%, rgba(5,5,5,.55) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.6) 100%);
   }
   .hero-inner {
     display: flex; flex-direction: column; align-items: center; text-align: center;
     padding: clamp(28px, 5vw, 56px) var(--pad) clamp(30px, 5vw, 56px);
   }
   .hero-label { margin: 0 0 18px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.85); }
-  .hero-cover {
-    position: relative; width: min(72vw, 372px); aspect-ratio: 1; background: rgba(51, 64, 76, .35);
-    box-shadow: 0 18px 50px rgba(0,0,0,.45);
-  }
-  .hero-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .86; transition: opacity .25s ease; }
-  .hero-cover.is-on img { opacity: 1; }
+  .hero-cover { position: relative; width: min(72vw, 372px); aspect-ratio: 1; background: var(--card-2); box-shadow: 0 18px 50px rgba(0,0,0,.55); }
+  .hero-cover img { width: 100%; height: 100%; object-fit: cover; }
   .hero-cover .play { position: absolute; inset: 0; width: 100%; height: 100%; }
   .hero-title { margin: 26px 0 0; font-size: clamp(1.9rem, 5.5vw, 3.2rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: .01em; }
   .hero-artist { margin: 12px 0 0; font-size: clamp(1.15rem, 3.4vw, 1.9rem); font-weight: 600; text-transform: uppercase; line-height: 1.25; }
@@ -131,13 +127,13 @@
   .btn:hover { background: #e7e0ff; }
   .btn.outline { background: transparent; color: #fff; border: 2px solid #fff; padding: 11px 24px; }
   .btn.outline:hover { background: rgba(255,255,255,.16); }
-  .hero-bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: rgba(255,255,255,.2); }
+  /* the thin line under the newest release (also the playback progress bar) */
+  .hero-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: rgba(255,255,255,.14); }
   .hero-bar span { display: block; height: 100%; width: 0; background: #fff; }
+  #viewTop { scroll-margin-top: var(--header-h); }
 
   /* ---------- Play button (shared by hero + tiles) ---------- */
-  .play {
-    border: 0; padding: 0; cursor: pointer; background: transparent; display: grid; place-items: center; color: #fff;
-  }
+  .play { border: 0; padding: 0; cursor: pointer; background: transparent; display: grid; place-items: center; color: #fff; }
   .play .ring {
     width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; display: grid; place-items: center;
     background: rgba(0,0,0,.08); transition: transform .2s ease, background .2s ease;
@@ -149,37 +145,31 @@
   .play.is-playing .i-pause { display: block; }
   .play .i-play { margin-left: 5px; }
 
-  .play.is-loading { opacity: 1 !important; }
-  .play.is-loading .ring { border-color: rgba(255,255,255,.3); border-top-color: #fff; animation: spin .8s linear infinite; }
-  .play.is-loading svg { display: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ---------- Section bar (translucent, slanted end, circle arrow) ---------- */
+  /* ---------- Section bar (slanted end, circle arrow) ---------- */
   .section { padding-top: 34px; }
   .bar {
     display: flex; align-items: center; justify-content: space-between; height: 66px; padding: 0 20px 0 24px;
-    background: linear-gradient(115deg, rgba(19,20,22,.72) calc(100% - 110px), rgba(32,34,38,.72) calc(100% - 109px));
-    margin-bottom: 30px; border: 1px solid rgba(255,255,255,.06);
+    background: linear-gradient(115deg, var(--card) calc(100% - 110px), var(--card-2) calc(100% - 109px));
+    margin-bottom: 30px; border: 1px solid #17191c;
   }
   .bar h2 { margin: 0; font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
   .bar a.more {
     display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
     border: 2px solid var(--ink); margin-right: 8px;
   }
-  .bar a.more:hover { background: var(--ink); color: #050505; }
+  .bar a.more:hover { background: var(--ink); color: #000; }
   .bar a.more svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-  /* ---------- Tiles (covers are slightly see-through so the wave shows) ---------- */
+  /* ---------- Tiles ---------- */
   .tiles { display: grid; gap: 30px 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 640px)  { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 20px; } }
   @media (min-width: 900px)  { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   @media (min-width: 1180px) { .tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 
   .card { position: relative; min-width: 0; }
-  .cover { position: relative; aspect-ratio: 1; background: rgba(29, 31, 35, .35); transition: transform .25s ease, box-shadow .25s ease; }
-  .cover img { width: 100%; height: 100%; object-fit: cover; opacity: .8; transition: opacity .25s ease; }
-  .card:hover .cover img, .cover.is-on img, .cover:focus-within img { opacity: .97; }
-  .card:hover .cover, .card:focus-within .cover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.1); }
+  .cover { position: relative; aspect-ratio: 1; background: var(--card-2); transition: transform .25s ease, box-shadow .25s ease; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .card:hover .cover, .card:focus-within .cover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.1); }
   .cover .play { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; opacity: 0; transition: opacity .2s ease; }
   .cover .play .ring { width: 78px; height: 78px; border-width: 3px; }
   .cover .play svg { width: 34px; height: 34px; }
@@ -208,21 +198,29 @@
   }
   .pill:hover { background: #fff; color: #0b0b0d; }
   .artist-card .cover .play { display: none; }
+  .view-note { margin: 34px 0 0; text-align: center; }
+  .view-note a { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ---------- Submission ---------- */
+  /* ---------- Embedded pages (Submission, Merch, Wallpapers, Contact) ---------- */
+  .frame-hint { margin: -12px 0 16px; color: var(--muted); font-size: .88rem; }
+  .frame-hint a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+  .frame-box { background: #0b0b0c; border: 1px solid var(--dark-line); }
+  .frame-box iframe { display: block; width: 100%; height: max(560px, calc(100vh - var(--header-h) - 120px)); border: 0; background: #0b0b0c; }
+
+  /* ---------- Submission tiles ---------- */
   .submit-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
   .submit {
     display: flex; flex-direction: column; justify-content: space-between; gap: 36px; min-height: 210px;
-    padding: clamp(20px, 3vw, 32px); background: rgba(19,20,22,.72); color: #fff; border: 1px solid var(--dark-line);
+    padding: clamp(20px, 3vw, 32px); background: var(--card); color: #fff; border: 1px solid var(--dark-line);
   }
-  .submit:hover { background: rgba(29,31,35,.85); border-color: var(--accent); }
+  .submit:hover { background: var(--card-2); border-color: var(--accent); }
   .submit h3 { margin: 0 0 8px; font-size: 1.35rem; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
   .submit p { margin: 0; color: #b9c0c7; max-width: 38ch; }
   .submit .go { font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-text); }
   @media (max-width: 720px) { .submit-grid { grid-template-columns: 1fr; } .submit { min-height: 170px; gap: 22px; } }
 
   /* ---------- Footer ---------- */
-  .site-footer { margin-top: 70px; background: rgba(14,15,17,.9); color: #fff; padding: 36px 0 44px; border-top: 1px solid var(--dark-line); }
+  .site-footer { margin-top: 70px; background: var(--dark); color: #fff; padding: 36px 0 44px; border-top: 1px solid var(--dark-line); }
   .footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; }
   .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
   .footer-links a { color: #c9d0d6; }
@@ -240,13 +238,10 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .cover, .play .ring, .cover .play { transition: none; }
-    .play.is-loading .ring { animation-duration: 2s; }
   }
 </style>
 </head>
 <body>
-
-<canvas id="wave" aria-hidden="true"></canvas>
 
 <header class="site-header">
   <div class="wrap header-row">
@@ -254,105 +249,142 @@
       <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
 
-    <a class="logo" href="#top" aria-label="Dreamer Records – home">
+    <a class="logo" href="#/home" data-route="home" aria-label="Dreamer Records – home">
       <img src="https://fordreamers.org/wp-content/uploads/2024/07/dreamerlogositev20.png" alt="Dreamer Records"
            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-text',textContent:'Dreamer Records'}))">
     </a>
 
     <ul class="nav" id="nav">
-      <li><a href="https://fordreamers.org/">Home</a></li>
-      <li><a href="https://fordreamers.org/releases/">Music</a></li>
-      <li><a href="https://fordreamers.org/artists/">Artists</a></li>
+      <li><a href="#/home" data-route="home">Home</a></li>
+      <li><a href="#/out-now" data-route="out-now">Out now</a></li>
+      <li><a href="#/music" data-route="music">Music</a></li>
+      <li><a href="#/artists" data-route="artists">Artists</a></li>
       <li class="has-dropdown">
-        <a href="https://fordreamers.org/ytsubmission/" aria-haspopup="true">Submission</a>
+        <a href="#/youtube" data-route="youtube" data-group="submission" aria-haspopup="true">Submission</a>
         <ul class="dropdown">
-          <li><a href="https://fordreamers.org/ytsubmission/">YouTube Submission</a></li>
-          <li><a href="https://fordreamers.org/labelsubmission/">Label Submission</a></li>
+          <li><a href="#/youtube" data-route="youtube">YouTube Submission</a></li>
+          <li><a href="#/label" data-route="label">Label Submission</a></li>
         </ul>
       </li>
-      <li><a href="https://merch.fordreamers.org/">Merch</a></li>
-      <li><a href="https://fordreamers.org/galleries/dreamer-wallpapers/">Wallpapers</a></li>
-      <li><a href="https://fordreamers.org/contact/">Contact</a></li>
-      <li class="mobile-only"><a href="https://soundcloud.com/dreamer_records">SoundCloud</a></li>
-      <li class="mobile-only"><a href="https://www.beatport.com/label/dreamer-records/117367">Beatport</a></li>
-      <li class="mobile-only"><a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ">YouTube</a></li>
-      <li class="mobile-only"><a href="https://www.instagram.com/imdreameryt/">Instagram</a></li>
+      <li><a href="#/merch" data-route="merch">Merch</a></li>
+      <li><a href="#/wallpapers" data-route="wallpapers">Wallpapers</a></li>
+      <li><a href="#/contact" data-route="contact">Contact</a></li>
+      <li class="mobile-only"><a href="https://soundcloud.com/dreamer_records" target="_blank" rel="noopener">SoundCloud</a></li>
+      <li class="mobile-only"><a href="https://www.beatport.com/label/dreamer-records/117367" target="_blank" rel="noopener">Beatport</a></li>
+      <li class="mobile-only"><a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ" target="_blank" rel="noopener">YouTube</a></li>
+      <li class="mobile-only"><a href="https://www.instagram.com/imdreameryt/" target="_blank" rel="noopener">Instagram</a></li>
     </ul>
 
-    <a class="cta" href="https://fordreamers.org/labelsubmission/">Submit music</a>
+    <a class="cta" href="#/label" data-route="label">Submit music</a>
   </div>
 </header>
 
 <main id="top">
   <h1 class="sr-only">Dreamer Music – music curator &amp; label</h1>
 
-  <!-- Hero: newest release, playable (filled by script) -->
+  <!-- Newest release (always visible, the music keeps playing while you browse) -->
   <section class="hero" id="hero" aria-label="Latest release"></section>
+  <div id="viewTop"></div>
 
-  <!-- Out now -->
-  <section class="section" aria-labelledby="out-now">
-    <div class="wrap">
-      <div class="bar">
-        <h2 id="out-now">Out now</h2>
-        <a class="more" href="https://fordreamers.org/releases/" aria-label="More releases">
-          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-        </a>
+  <!-- HOME -->
+  <div class="view" id="view-home" tabindex="-1">
+    <section class="section" aria-labelledby="out-now">
+      <div class="wrap">
+        <div class="bar">
+          <h2 id="out-now">Out now</h2>
+          <a class="more" href="#/out-now" data-route="out-now" aria-label="All out now releases">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="tiles" id="outNow"></div>
       </div>
-      <div class="tiles" id="outNow"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Out soon -->
-  <section class="section" aria-labelledby="out-soon" id="soonSection" hidden>
-    <div class="wrap">
-      <div class="bar">
-        <h2 id="out-soon">Out soon</h2>
-        <a class="more" href="https://fordreamers.org/releases/" aria-label="More upcoming releases">
-          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-        </a>
+    <section class="section" aria-labelledby="out-soon" id="soonSection" hidden>
+      <div class="wrap">
+        <div class="bar">
+          <h2 id="out-soon">Out soon</h2>
+          <a class="more" href="#/music" data-route="music" aria-label="All releases">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="tiles" id="outSoon"></div>
       </div>
-      <div class="tiles" id="outSoon"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Artists -->
-  <section class="section" aria-labelledby="artists">
-    <div class="wrap">
-      <div class="bar">
-        <h2 id="artists">Our dream team</h2>
-        <a class="more" href="https://fordreamers.org/artists/" aria-label="More artists">
-          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-        </a>
+    <section class="section" aria-labelledby="artists-h">
+      <div class="wrap">
+        <div class="bar">
+          <h2 id="artists-h">Our dream team</h2>
+          <a class="more" href="#/artists" data-route="artists" aria-label="All artists">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="tiles" id="artistTiles"></div>
       </div>
-      <div class="tiles" id="artistTiles"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Submissions -->
-  <section class="section" aria-labelledby="submit">
-    <div class="wrap">
-      <div class="bar">
-        <h2 id="submit">Send us your music</h2>
-        <span></span>
+    <section class="section" aria-labelledby="submit-h">
+      <div class="wrap">
+        <div class="bar">
+          <h2 id="submit-h">Send us your music</h2>
+          <span></span>
+        </div>
+        <div class="submit-grid">
+          <a class="submit" href="#/label" data-route="label">
+            <div>
+              <h3>Label submission</h3>
+              <p>Want to release with Dreamer Records? Send us your track.</p>
+            </div>
+            <span class="go">Submit a track</span>
+          </a>
+          <a class="submit" href="#/youtube" data-route="youtube">
+            <div>
+              <h3>YouTube submission</h3>
+              <p>Get your track on the Dreamer YouTube channel.</p>
+            </div>
+            <span class="go">Submit a track</span>
+          </a>
+        </div>
       </div>
-      <div class="submit-grid">
-        <a class="submit" href="https://fordreamers.org/labelsubmission/">
-          <div>
-            <h3>Label submission</h3>
-            <p>Want to release with Dreamer Records? Send us your track.</p>
-          </div>
-          <span class="go">Submit a track</span>
-        </a>
-        <a class="submit" href="https://fordreamers.org/ytsubmission/">
-          <div>
-            <h3>YouTube submission</h3>
-            <p>Get your track on the Dreamer YouTube channel.</p>
-          </div>
-          <span class="go">Submit a track</span>
-        </a>
+    </section>
+  </div>
+
+  <!-- OUT NOW -->
+  <div class="view" id="view-out-now" tabindex="-1" hidden>
+    <section class="section" aria-label="Out now">
+      <div class="wrap">
+        <div class="bar"><h2>Out now</h2><span></span></div>
+        <div class="tiles" id="allOut"></div>
+        <p class="view-note"><a href="https://fordreamers.org/releases/" target="_blank" rel="noopener">See every release on fordreamers.org</a></p>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="view" id="view-music" tabindex="-1" hidden>
+    <section class="section" aria-label="Music">
+      <div class="wrap">
+        <div class="bar"><h2>Music</h2><span></span></div>
+        <div class="tiles" id="allMusic"></div>
+        <p class="view-note"><a href="https://fordreamers.org/releases/" target="_blank" rel="noopener">See every release on fordreamers.org</a></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ARTISTS -->
+  <div class="view" id="view-artists" tabindex="-1" hidden>
+    <section class="section" aria-label="Artists">
+      <div class="wrap">
+        <div class="bar"><h2>Artists</h2><span></span></div>
+        <div class="tiles" id="allArtists"></div>
+        <p class="view-note"><a href="https://fordreamers.org/artists/" target="_blank" rel="noopener">See every artist on fordreamers.org</a></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- EMBEDDED PAGES (created by the script) -->
+  <div id="frameViews"></div>
 </main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -360,17 +392,17 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-row">
-      <a class="logo" href="#top" aria-label="Dreamer Records – back to top">
+      <a class="logo" href="#/home" data-route="home" aria-label="Dreamer Records – home">
         <img src="https://fordreamers.org/wp-content/uploads/2024/07/dreamerlogositev20.png" alt="Dreamer Records"
              onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-text',textContent:'Dreamer Records'}))">
       </a>
       <nav class="footer-links" aria-label="Footer">
-        <a href="https://soundcloud.com/dreamer_records">SoundCloud</a>
-        <a href="https://www.beatport.com/label/dreamer-records/117367">Beatport</a>
-        <a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ">YouTube</a>
-        <a href="https://www.instagram.com/imdreameryt/">Instagram</a>
-        <a href="https://merch.fordreamers.org/">Merch</a>
-        <a href="https://fordreamers.org/contact/">Contact</a>
+        <a href="https://soundcloud.com/dreamer_records" target="_blank" rel="noopener">SoundCloud</a>
+        <a href="https://www.beatport.com/label/dreamer-records/117367" target="_blank" rel="noopener">Beatport</a>
+        <a href="https://www.youtube.com/channel/UCF4fvknuu-UZmfaGPfDD7pQ" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.instagram.com/imdreameryt/" target="_blank" rel="noopener">Instagram</a>
+        <a href="#/merch" data-route="merch">Merch</a>
+        <a href="#/contact" data-route="contact">Contact</a>
       </nav>
     </div>
     <p class="copy">© <span id="year">2026</span> Dreamer Records</p>
@@ -383,15 +415,7 @@
   var SITE = 'https://fordreamers.org';
   var R = SITE + '/releases/';
 
-  // OPTIONAL: if you copy the preview .mp3 files to your own hosting (same domain as this page),
-  // put the folder here, e.g. 'audio/'. Then the wave can read the real audio signal.
-  var AUDIO_BASE = '';
-  function audioUrl(u) { return AUDIO_BASE ? AUDIO_BASE + u.split('/').pop() : u; }
-
-  // OPTIONAL: add  bpm: 96  to a release below. It is only used when the real signal can't be read.
-
-  // date = release date (YYYY-MM-DD). Releases dated after today appear under "Out soon".
-  // audio = short preview (full URL)
+  // date = release date (YYYY-MM-DD). Releases dated after today are shown as "Out soon".
   var releases = [
     { title: 'Wallowing',                  artist: 'Urban Waifs',         date: '2026-09-18', img: '2026/08/web-8.jpg',                     slug: 'urban-waifs-wallowing',                 link: 'https://link.fordreamers.org/fxHU', audio: U + '2026/08/uwwallowinglooped.mp3' },
     { title: 'DAMAGE',                     artist: 'KLMRN x FRENCH CULT', date: '2026-09-11', img: '2026/08/web-6.jpg',                     slug: 'klmrn-x-french-cult-damage',            link: 'https://link.fordreamers.org/clps', audio: U + '2026/08/damageloopedklmrn-1.mp3' },
@@ -427,8 +451,18 @@
     { name: 'Shark4Sale',       genres: 'Electronic / Wave',                                img: '2024/10/pic-300x300.jpg',                    slug: 'shark4sale' }
   ];
 
+  // Pages that open under the line inside this page (no reload). They are the real fordreamers.org pages.
+  var FRAMES = {
+    youtube:    { title: 'YouTube submission', url: SITE + '/ytsubmission/' },
+    label:      { title: 'Label submission',   url: SITE + '/labelsubmission/' },
+    merch:      { title: 'Merch',              url: 'https://merch.fordreamers.org/' },
+    wallpapers: { title: 'Wallpapers',         url: SITE + '/galleries/dreamer-wallpapers/' },
+    contact:    { title: 'Contact',            url: SITE + '/contact/' }
+  };
+
   var PLAY_SVG  = '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.500v15l13-7.500z"/></svg>';
   var PAUSE_SVG = '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+  var EXT = ' target="_blank" rel="noopener"';
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -444,28 +478,28 @@
     return '<img src="' + esc(U + src) + '" alt="' + esc(alt) + '" loading="lazy" onerror="this.style.display=\'none\'">';
   }
   function playBtn(r) {
-    return '<button class="play" type="button" data-slug="' + esc(r.slug) + '" data-audio="' + esc(audioUrl(r.audio)) + '" ' +
+    return '<button class="play" type="button" data-slug="' + esc(r.slug) + '" data-audio="' + esc(r.audio) + '" ' +
            'aria-label="Play preview: ' + esc(r.title) + ' by ' + esc(r.artist) + '">' +
            '<span class="ring">' + PLAY_SVG + PAUSE_SVG + '</span></button>';
   }
-
   function releaseCard(r, upcoming) {
     return '<article class="card">' +
-      (upcoming ? '<a class="pill" href="' + esc(r.link) + '">Pre-save now</a>' : '') +
+      (upcoming ? '<a class="pill" href="' + esc(r.link) + '"' + EXT + '>Pre-save now</a>' : '') +
       '<div class="cover">' + img(r.img, 'Cover: ' + r.artist + ' – ' + r.title) +
         playBtn(r) + '<span class="prog" data-prog="' + esc(r.slug) + '"></span></div>' +
-      '<a class="meta" href="' + esc(R + r.slug + '/') + '">' +
+      '<a class="meta" href="' + esc(R + r.slug + '/') + '"' + EXT + '>' +
         '<h3 class="card-title">' + esc(r.title) + '</h3>' +
         '<p class="card-sub">' + esc(r.artist) + '</p>' +
         (upcoming ? '<p class="card-date">' + niceDate(r.date) + '</p>' : '') +
       '</a></article>';
   }
   function artistCard(a) {
-    return '<article class="card artist-card"><a href="' + SITE + '/artists/' + esc(a.slug) + '/">' +
+    return '<article class="card artist-card"><a href="' + SITE + '/artists/' + esc(a.slug) + '/"' + EXT + '>' +
       '<div class="cover">' + img(a.img, a.name) + '</div>' +
       '<div class="meta"><h3 class="card-title">' + esc(a.name) + '</h3>' +
       '<p class="card-sub">' + esc(a.genres) + '</p></div></a></article>';
   }
+  function fill(id, html) { document.getElementById(id).innerHTML = html; }
 
   // ----- split releases by date -----
   var now = new Date();
@@ -474,8 +508,8 @@
                          .sort(function (a, b) { return a.date < b.date ? 1 : -1; });
   var soon = releases.filter(function (r) { return r.date > today; })
                      .sort(function (a, b) { return a.date > b.date ? 1 : -1; });
+  var everything = releases.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
   var latest = released[0];
-  var outNow = released.slice(1, 13); // the latest one lives in the hero
 
   // ----- hero: newest release, playable -----
   if (latest) {
@@ -487,48 +521,53 @@
         '<h2 class="hero-title">' + esc(latest.title) + '</h2>' +
         '<p class="hero-artist">' + esc(latest.artist) + '</p>' +
         '<div class="hero-links">' +
-          '<a class="btn" href="' + esc(latest.link) + '">Stream / buy</a>' +
-          '<a class="btn outline" href="' + esc(R + latest.slug + '/') + '">Release page</a>' +
+          '<a class="btn" href="' + esc(latest.link) + '"' + EXT + '>Stream / buy</a>' +
+          '<a class="btn outline" href="' + esc(R + latest.slug + '/') + '"' + EXT + '>Release page</a>' +
         '</div>' +
       '</div>' +
       '<div class="hero-bar"><span data-prog="' + esc(latest.slug) + '"></span></div>';
   }
 
-  document.getElementById('outNow').innerHTML = outNow.map(function (r) { return releaseCard(r, false); }).join('');
+  // ----- views -----
+  fill('outNow', released.slice(1, 13).map(function (r) { return releaseCard(r, false); }).join(''));
   if (soon.length) {
-    document.getElementById('outSoon').innerHTML = soon.map(function (r) { return releaseCard(r, true); }).join('');
+    fill('outSoon', soon.map(function (r) { return releaseCard(r, true); }).join(''));
     document.getElementById('soonSection').hidden = false;
   }
-  document.getElementById('artistTiles').innerHTML = artists.map(artistCard).join('');
+  fill('artistTiles', artists.map(artistCard).join(''));
+  fill('allOut', released.map(function (r) { return releaseCard(r, false); }).join(''));
+  fill('allMusic', everything.map(function (r) { return releaseCard(r, r.date > today); }).join(''));
+  fill('allArtists', artists.map(artistCard).join(''));
   document.getElementById('year').textContent = now.getFullYear();
 
+  // embedded pages: one section per page, the iframe loads the first time it is opened
+  var frameViews = document.getElementById('frameViews');
+  Object.keys(FRAMES).forEach(function (key) {
+    var f = FRAMES[key];
+    var sec = document.createElement('div');
+    sec.className = 'view';
+    sec.id = 'view-' + key;
+    sec.tabIndex = -1;
+    sec.hidden = true;
+    sec.innerHTML =
+      '<section class="section" aria-label="' + esc(f.title) + '"><div class="wrap">' +
+        '<div class="bar"><h2>' + esc(f.title) + '</h2>' +
+          '<a class="more" href="' + esc(f.url) + '"' + EXT + ' aria-label="Open ' + esc(f.title) + ' in a new tab" title="Open in a new tab">' +
+          '<svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>' +
+        '<p class="frame-hint">Nothing showing here? <a href="' + esc(f.url) + '"' + EXT + '>Open this page in a new tab</a>.</p>' +
+        '<div class="frame-box"><iframe title="' + esc(f.title) + '" data-src="' + esc(f.url) + '"></iframe></div>' +
+      '</div></section>';
+    frameViews.appendChild(sec);
+  });
+
   /* =====================================================================
-     Audio player + Web Audio analyser for the wave
-     ---------------------------------------------------------------------
-     To read the real signal the browser must be allowed to touch the mp3
-     bytes, so each preview is downloaded once as a Blob:
-       1. straight from the audio host (works when it sends CORS headers,
-          or when this page is hosted on the same domain),
-       2. otherwise through a public CORS proxy (PROXIES below),
-       3. otherwise it is streamed normally and the wave can't analyse it.
-     Set USE_PROXY = false once the page lives on fordreamers.org.
+     Audio: one shared player, so the music keeps playing while you browse
      ===================================================================== */
-  var USE_PROXY = true;
-  var PROXIES = [
-    function (u) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
-    function (u) { return 'https://corsproxy.io/?url=' + encodeURIComponent(u); },
-    function (u) { return 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u); }
-  ];
-  var SILENT = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-
-  var audio = null;                  // element that is currently used
-  var gEl = null, pEl = null;        // gEl = analysed (Blob) element, pEl = plain streaming fallback
-  var actx = null, analyser = null, analyserLow = null, srcNode = null, fdata = null, ldata = null;
-  var currentSlug = null, playToken = 0, unlocked = false;
-  var blobCache = {}, blobVia = {}, pending = {}, directFailed = false, proxyFirst = 0, srcVia = '';
-
+  var audio = null;
+  var currentSlug = null;
   var toast = document.getElementById('toast');
   var toastTimer;
+
   function showToast(html) {
     toast.innerHTML = html;
     toast.classList.add('show');
@@ -537,462 +576,125 @@
   }
   function fail() {
     setPlaying(currentSlug, false);
-    setLoading(currentSlug, false);
     resetProgress();
-    showToast('Preview couldn\u2019t be loaded here. <a href="' + R + currentSlug + '/">Listen on the release page</a>');
+    showToast('Preview couldn\u2019t be loaded here. <a href="' + R + currentSlug + '/"' + EXT + '>Listen on the release page</a>');
   }
-
   function setPlaying(slug, playing) {
     var buttons = document.querySelectorAll('.play');
     for (var i = 0; i < buttons.length; i++) {
       var on = playing && buttons[i].getAttribute('data-slug') === slug;
       buttons[i].classList.toggle('is-playing', on);
-      var holder = buttons[i].closest ? buttons[i].closest('.cover, .hero-cover') : null;
-      if (holder) holder.classList.toggle('is-on', on);
       var base = buttons[i].getAttribute('aria-label').replace(/^(Play|Pause) preview/, 'Play preview');
       buttons[i].setAttribute('aria-label', on ? base.replace('Play preview', 'Pause preview') : base);
-    }
-  }
-  function setLoading(slug, on) {
-    var buttons = document.querySelectorAll('.play');
-    for (var i = 0; i < buttons.length; i++) {
-      var me = on && buttons[i].getAttribute('data-slug') === slug;
-      buttons[i].classList.toggle('is-loading', me);
-      if (me) buttons[i].setAttribute('aria-busy', 'true'); else buttons[i].removeAttribute('aria-busy');
     }
   }
   function resetProgress() {
     var bars = document.querySelectorAll('[data-prog]');
     for (var i = 0; i < bars.length; i++) bars[i].style.width = '0';
   }
-
-  // ----- download a preview as a Blob (direct -> proxy) -----
-  function fetchBlob(url, ms) {
-    return new Promise(function (resolve, reject) {
-      var ctrl = window.AbortController ? new AbortController() : null;
-      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); reject(new Error('timeout')); }, ms);
-      fetch(url, { mode: 'cors', credentials: 'omit', referrerPolicy: 'no-referrer', signal: ctrl ? ctrl.signal : undefined })
-        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.blob(); })
-        .then(function (blob) {
-          clearTimeout(timer);
-          if (blob.size < 8000 || /html|json|text/.test(blob.type)) throw new Error('not audio');
-          resolve(new Blob([blob], { type: 'audio/mpeg' }));
-        })
-        .catch(function (err) { clearTimeout(timer); reject(err); });
-    });
-  }
-  function getBlobUrl(url) {
-    if (blobCache[url]) return Promise.resolve(blobCache[url]);
-    if (pending[url]) return pending[url];
-    var sources = [];
-    if (!directFailed) sources.push({ u: url, via: 'direct', ms: 6000 });
-    if (USE_PROXY) {
-      for (var k = 0; k < PROXIES.length; k++) {
-        var idx = (proxyFirst + k) % PROXIES.length;
-        sources.push({ u: PROXIES[idx](url), via: 'proxy' + (idx + 1), idx: idx, ms: 12000 });
-      }
-    }
-    var chain = Promise.reject(new Error('start'));
-    sources.forEach(function (src) {
-      chain = chain.catch(function () {
-        return fetchBlob(src.u, src.ms).then(function (b) { return { b: b, src: src }; },
-          function (err) { if (src.via === 'direct') directFailed = true; throw err; });
-      });
-    });
-    var p = chain.then(function (res) {
-      if (res.src.via !== 'direct') proxyFirst = res.src.idx;
-      var bu = URL.createObjectURL(res.b);
-      blobCache[url] = bu; blobVia[bu] = res.src.via;
-      delete pending[url];
-      return bu;
-    }, function (err) { delete pending[url]; throw err; });
-    pending[url] = p;
-    return p;
-  }
-
-  // ----- audio elements + analyser graph -----
-  function bindEvents(el) {
-    el.addEventListener('play',  function () { if (el === audio) setPlaying(currentSlug, true); });
-    el.addEventListener('pause', function () { if (el === audio) setPlaying(currentSlug, false); });
-    el.addEventListener('ended', function () { if (el === audio) { setPlaying(currentSlug, false); resetProgress(); } });
+  function ensureAudio() {
+    if (audio) return audio;
+    var el = new Audio();
+    el.preload = 'auto';
+    el.addEventListener('play',  function () { setPlaying(currentSlug, true); });
+    el.addEventListener('pause', function () { setPlaying(currentSlug, false); });
+    el.addEventListener('ended', function () { setPlaying(currentSlug, false); resetProgress(); });
     el.addEventListener('timeupdate', function () {
-      if (el !== audio || !el.duration) return;
+      if (!el.duration) return;
       var pct = (el.currentTime / el.duration * 100) + '%';
       var bars = document.querySelectorAll('[data-prog="' + currentSlug + '"]');
       for (var i = 0; i < bars.length; i++) bars[i].style.width = pct;
     });
-    el.addEventListener('error', function () {
-      if (el === audio && el.src && el.src.indexOf('data:') !== 0) fail();
-    });
-    return el;
-  }
-
-  function teardownGraph() {
-    try { if (srcNode) srcNode.disconnect(); } catch (e) {}
-    try { if (analyser) analyser.disconnect(); } catch (e) {}
-    try { if (analyserLow) analyserLow.disconnect(); } catch (e) {}
-    try { if (actx && actx.close) actx.close(); } catch (e) {}
-    srcNode = null; analyser = null; analyserLow = null; actx = null; fdata = null; ldata = null;
-  }
-
-  function ensureGraph() {
-    if (!gEl) gEl = bindEvents(new Audio());
-    if (actx) return;
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
-    try {
-      actx = new AC();
-      analyser = actx.createAnalyser();
-      analyser.fftSize = 1024;
-      analyser.smoothingTimeConstant = 0.4;
-      // second analyser with fine frequency resolution (~11 Hz per bin) for the 0-300 Hz kick view
-      analyserLow = actx.createAnalyser();
-      analyserLow.fftSize = 4096;
-      analyserLow.smoothingTimeConstant = 0.3;
-      analyserLow.minDecibels = -90;
-      analyserLow.maxDecibels = -25;
-      srcNode = actx.createMediaElementSource(gEl);
-      srcNode.connect(analyser);
-      srcNode.connect(analyserLow);
-      analyser.connect(actx.destination);
-      fdata = new Uint8Array(analyser.frequencyBinCount);
-      ldata = new Uint8Array(analyserLow.frequencyBinCount);
-    } catch (e) {
-      teardownGraph();
-    }
-  }
-
-  // Runs inside the first tap: unlocks audio so playback can start later, after the download.
-  function unlockAudio() {
-    if (unlocked) return;
-    unlocked = true;
-    ensureGraph();
-    if (actx && actx.state === 'suspended') { try { actx.resume(); } catch (e) {} }
-    try { gEl.src = SILENT; var p = gEl.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
-  }
-
-  function startPlayback(slug, url, blobUrl) {
-    var el;
-    if (blobUrl) { el = gEl; }
-    else { if (!pEl) pEl = bindEvents(new Audio()); el = pEl; }
-    if (audio && audio !== el) { try { audio.pause(); } catch (e) {} }
+    el.addEventListener('error', function () { if (el.getAttribute('src')) fail(); });
     audio = el;
-    srcVia = blobUrl ? (blobVia[blobUrl] || '') : 'stream';
-    el.src = blobUrl || url;
-    var p = el.play();
-    if (p && p.catch) p.catch(function (err) {
-      if (err && err.name === 'NotAllowedError') { setPlaying(slug, false); } else { fail(); }
-    });
+    return el;
   }
 
   document.addEventListener('click', function (e) {
     var btn = e.target.closest ? e.target.closest('.play') : null;
     if (!btn) return;
     var slug = btn.getAttribute('data-slug');
-    var url = btn.getAttribute('data-audio');
-    unlockAudio();
+    var el = ensureAudio();
 
-    if (audio && currentSlug === slug && audio.src && audio.src.indexOf('data:') !== 0) {
-      if (!audio.paused) { audio.pause(); return; }
-      if (audio.ended) audio.currentTime = 0;
-      var rp = audio.play();
-      if (rp && rp.catch) rp.catch(function () { fail(); });
+    if (currentSlug === slug && el.getAttribute('src')) {
+      if (!el.paused) { el.pause(); return; }
+      if (el.ended) el.currentTime = 0;
+      var rp = el.play();
+      if (rp && rp.catch) rp.catch(function (err) { if (!err || err.name !== 'AbortError') fail(); });
       return;
     }
-
     resetProgress();
-    if (audio) { try { audio.pause(); } catch (e2) {} }
+    try { el.pause(); } catch (e2) {}
     currentSlug = slug;
-    var token = ++playToken;
-
-    if (blobCache[url]) { startPlayback(slug, url, blobCache[url]); return; }  // instant, still inside the tap
-
-    setLoading(slug, true);
-    getBlobUrl(url).then(function (bu) {
-      if (token !== playToken) return;
-      setLoading(slug, false);
-      startPlayback(slug, url, bu);
-    }, function () {
-      if (token !== playToken) return;
-      setLoading(slug, false);
-      startPlayback(slug, url, null);   // last resort: plain streaming, wave can't analyse it
+    el.src = btn.getAttribute('data-audio');
+    var p = el.play();
+    if (p && p.catch) p.catch(function (err) {
+      if (err && err.name === 'AbortError') return;
+      if (err && err.name === 'NotAllowedError') { setPlaying(slug, false); } else { fail(); }
     });
   });
 
-  // warm up downloads so the tap feels instant
-  document.addEventListener('mouseover', function (e) {
-    var b = e.target.closest ? e.target.closest('.play') : null;
-    if (b) getBlobUrl(b.getAttribute('data-audio')).catch(function () {});
-  });
-  if (latest) {
-    setTimeout(function () { getBlobUrl(audioUrl(latest.audio)).catch(function () {}); }, 700);
-  }
-
   /* =====================================================================
-     Sound wave background
+     Navigation without reloading the page
      ===================================================================== */
-  var wave = document.getElementById('wave');
-  var wx = wave.getContext('2d');
-  var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  var WW = 0, WH = 0;
-
-  function resizeWave() {
-    var d = Math.min(window.devicePixelRatio || 1, 2);
-    WW = wave.clientWidth; WH = wave.clientHeight;
-    wave.width = Math.round(WW * d); wave.height = Math.round(WH * d);
-    wx.setTransform(d, 0, 0, d, 0, 0);
-  }
-  window.addEventListener('resize', resizeWave);
-  resizeWave();
-
-  var SPEC_N = 48;
-  var spec = new Float32Array(SPEC_N), specT = new Float32Array(SPEC_N);
-  var st = { bass: .12, mid: .1, high: .05, kick: .06 };
-  var tmWave = 0, lastT = performance.now(), zeroFor = 0, bassAvg = 0, fluxAvg = 0;
-  var prevF = new Float32Array(512);
-  // 0-300 Hz spectrum (log axis 20 -> 300 Hz), FL Studio style: fast attack, slower fall, peak hold
-  var LOW_N = 72, LOW_MIN = 20, LOW_MAX = 300;
-  var low = new Float32Array(LOW_N), lowT = new Float32Array(LOW_N), lowPeak = new Float32Array(LOW_N);
-  var lowRef = .3;
-  var bySlug = {};
-  releases.forEach(function (r) { bySlug[r.slug] = r; });
-  var mode = 'idle'; // idle | live | free | bpm (for ?debug)
-
-  function ease(cur, target, dt, up, down) {
-    return cur + (target - cur) * (1 - Math.exp(-dt * (target > cur ? up : down)));
-  }
-  function bandAvg(arr, f1, f2, binHz) {
-    var i1 = Math.max(1, Math.floor(f1 / binHz));
-    var i2 = Math.min(arr.length, Math.max(i1 + 1, Math.floor(f2 / binHz)));
-    var sum = 0;
-    for (var i = i1; i < i2; i++) sum += arr[i];
-    return sum / ((i2 - i1) * 255);
-  }
-  function bump(q) { var d = (q - .34) / .2; return Math.exp(-d * d); } // ~50 Hz on the log axis
-  function sampleLow(arr, q) {
-    if (q <= 0) return arr[0];
-    if (q >= 1) return arr[LOW_N - 1];
-    var pos = q * (LOW_N - 1), i0 = pos | 0, f = pos - i0;
-    return arr[i0] * (1 - f) + arr[i0 + 1] * f;
-  }
-
-  function readEnergy(dt, tSec) {
-    var playing = audio && !audio.paused && !audio.ended;
-    var tBass = .12, tMid = .10, tHigh = .05, tKick = .06 + .04 * Math.sin(tSec * .6);
-    var live = false, i;
-
-    if (playing && audio === gEl && analyser && analyserLow && fdata && ldata) {
-      analyser.getByteFrequencyData(fdata);
-      analyserLow.getByteFrequencyData(ldata);
-      var binHz = actx.sampleRate / analyser.fftSize;
-      var lowHz = actx.sampleRate / analyserLow.fftSize;
-      var b = bandAvg(ldata, 30, 160, lowHz), m = bandAvg(fdata, 160, 2200, binHz), h = bandAvg(fdata, 2200, 9000, binHz);
-      if (b + m + h > .004) {
-        live = true; zeroFor = 0;
-        tBass = Math.min(1, b * 1.3);
-        tMid  = Math.min(1, m * 1.6);
-        tHigh = Math.min(1, h * 2.6);
-        bassAvg += (b - bassAvg) * Math.min(1, dt * 2.2);
-        var bassKick = Math.max(0, Math.min(1, (b - bassAvg) * 3.6 + b * .35));
-        // onset detection over the whole spectrum (catches snares, plucks, hats – any tempo)
-        var flux = 0, top = Math.min(180, fdata.length);
-        for (i = 1; i < top; i++) {
-          var dlt = fdata[i] - prevF[i];
-          if (dlt > 0) flux += dlt;
-          prevF[i] = fdata[i];
-        }
-        flux /= (top * 255);
-        fluxAvg += (flux - fluxAvg) * Math.min(1, dt * 3);
-        var onset = Math.max(0, Math.min(1, (flux - fluxAvg) * 16));
-        tKick = Math.max(bassKick, onset * .9);
-        mode = 'live';
-        for (i = 0; i < SPEC_N; i++) {
-          var f1 = 40 * Math.pow(250, i / SPEC_N), f2 = 40 * Math.pow(250, (i + 1) / SPEC_N);
-          specT[i] = Math.min(1, bandAvg(fdata, f1, f2, binHz) * 1.7);
-        }
-        // 0-300 Hz spectrum with smooth interpolation between the fine bins
-        var curMax = 0, v;
-        for (i = 0; i < LOW_N; i++) {
-          var fr = LOW_MIN * Math.pow(LOW_MAX / LOW_MIN, i / (LOW_N - 1)) / lowHz;
-          var k0 = Math.floor(fr), fq = fr - k0;
-          fq = fq * fq * (3 - 2 * fq);
-          v = (ldata[k0] * (1 - fq) + ldata[k0 + 1] * fq) / 255;
-          lowT[i] = v;
-          if (v > curMax) curMax = v;
-        }
-        // auto-gain so quiet previews still fill the view, loud ones don't clip
-        lowRef = Math.max(curMax, lowRef - dt * .06);
-        var gain = Math.min(2.4, Math.max(1, .82 / Math.max(.15, lowRef)));
-        for (i = 0; i < LOW_N; i++) lowT[i] = Math.min(1, Math.pow(lowT[i] * gain, 1.5));
-      } else {
-        zeroFor += dt;
-      }
-    }
-
-    // Playing but the real signal can't be read (audio host without CORS).
-    if (playing && !live && (audio !== gEl || !analyser || zeroFor > 1.2)) {
-      var cur = bySlug[currentSlug];
-      if (cur && cur.bpm) {
-        // known tempo: pulse in time with the playback position of this track
-        mode = 'bpm';
-        var beat = 60 / cur.bpm, ph = (audio.currentTime % beat) / beat, pl = Math.pow(1 - ph, 5);
-        tKick = pl; tBass = .2 + pl * .5;
-        tMid = .26 + .12 * Math.sin(tSec * .9);
-        tHigh = .18 + .1 * Math.sin(tSec * 1.7);
-      } else {
-        // unknown tempo: no fake beat, just calm energetic motion
-        mode = 'free';
-        tKick = .22 + .12 * Math.sin(tSec * 1.3);
-        tBass = .3 + .1 * Math.sin(tSec * .8);
-        tMid = .28 + .12 * Math.sin(tSec * .9 + 1);
-        tHigh = .18 + .08 * Math.sin(tSec * 1.7);
-      }
-    }
-    if (!playing) mode = 'idle';
-    if (!live) {
-      for (i = 0; i < SPEC_N; i++) specT[i] = 0;
-      // no readable signal: synthetic kick bump so the view still breathes
-      for (i = 0; i < LOW_N; i++) lowT[i] = .04 + (.05 + tKick * .8) * bump(i / (LOW_N - 1));
-    }
-
-    st.bass = ease(st.bass, tBass, dt, 16, 5);
-    st.mid  = ease(st.mid,  tMid,  dt, 14, 5);
-    st.high = ease(st.high, tHigh, dt, 14, 6);
-    st.kick = ease(st.kick, tKick, dt, 120, 7);
-    for (i = 0; i < SPEC_N; i++) spec[i] = ease(spec[i], specT[i], dt, 22, 7);
-    for (i = 0; i < LOW_N; i++) {
-      low[i] = ease(low[i], reduceMotion ? .08 * bump(i / (LOW_N - 1)) : lowT[i], dt, 60, 9);
-      lowPeak[i] = Math.max(low[i], lowPeak[i] - dt * .45);
-    }
-  }
-
-  var dbg = null;
-  if (/[?&]debug\b/.test(location.search)) {
-    dbg = document.createElement('div');
-    dbg.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:200;padding:6px 10px;background:rgba(0,0,0,.8);color:#b7a8ff;font:11px/1.4 monospace;pointer-events:none';
-    document.body.appendChild(dbg);
-    window.__dreamerWave = { st: st, low: low };
-  }
-
-  function frame(ts) {
-    var dt = Math.min(.05, Math.max(.001, (ts - lastT) / 1000));
-    lastT = ts;
-    var tSec = ts / 1000;
-    readEnergy(dt, tSec);
-    if (dbg) {
-      dbg.textContent = 'wave: ' + ({ live: 'LIVE analysis (' + srcVia + ')', bpm: 'fallback – track BPM', free: 'fallback – free motion (' + srcVia + ')', idle: 'idle' }[mode]) +
-        ' | kick ' + st.kick.toFixed(2) + ' bass ' + st.bass.toFixed(2);
-    }
-
-    var w = WW, h = WH;
-    var s = Math.min(1.12, Math.max(.6, w / 1180));
-    var cy = h * .54;
-    var p = reduceMotion ? .1 : st.kick;
-    tmWave += dt * (reduceMotion ? .2 : (.55 + (st.bass + st.mid) * .45));
-    var step = w < 600 ? 4 : 5;
-    var glow = .85 + p * .45;
-
-    wx.clearRect(0, 0, w, h);
-
-    // per-x data for the 0-300 Hz "kick" lens
-    var nx = 0, xs = [], amp = [], pk = [];
-    for (var x0 = -20; x0 < w + 20; x0 += step) {
-      var qx = (x0 - w * .08) / (w * .84);
-      var ex = Math.pow(Math.max(0, Math.sin(qx * Math.PI)), .72);
-      xs[nx] = x0; amp[nx] = sampleLow(low, qx) * ex; pk[nx] = sampleLow(lowPeak, qx) * ex; nx++;
-    }
-    var lensH = h * .23 * s;
-
-    // soft flash on every kick
-    if (p > .05) {
-      var rg = wx.createRadialGradient(w / 2, cy, 0, w / 2, cy, Math.max(w, h) * .55);
-      rg.addColorStop(0, 'rgba(150,130,255,' + (p * .13).toFixed(3) + ')');
-      rg.addColorStop(1, 'rgba(150,130,255,0)');
-      wx.fillStyle = rg;
-      wx.fillRect(0, 0, w, h);
-    }
-
-    // mirrored 0-300 Hz spectrum (filled), like an analyser in a DAW
-    var j;
-    wx.beginPath();
-    for (j = 0; j < nx; j++) { if (j === 0) wx.moveTo(xs[j], cy - amp[j] * lensH); else wx.lineTo(xs[j], cy - amp[j] * lensH); }
-    for (j = nx - 1; j >= 0; j--) wx.lineTo(xs[j], cy + amp[j] * lensH);
-    wx.closePath();
-    var lg = wx.createLinearGradient(0, cy - lensH, 0, cy + lensH);
-    var edgeA = (.26 + p * .22).toFixed(3);
-    lg.addColorStop(0, 'rgba(185,170,255,' + edgeA + ')');
-    lg.addColorStop(.5, 'rgba(120,100,255,.05)');
-    lg.addColorStop(1, 'rgba(185,170,255,' + edgeA + ')');
-    wx.fillStyle = lg;
-    wx.fill();
-
-    // peak-hold lines
-    wx.shadowBlur = 0;
-    wx.strokeStyle = 'rgba(255,255,255,.26)';
-    wx.lineWidth = 1;
-    for (var side = -1; side <= 1; side += 2) {
-      wx.beginPath();
-      for (j = 0; j < nx; j++) { var yy = cy + side * pk[j] * lensH; if (j === 0) wx.moveTo(xs[j], yy); else wx.lineTo(xs[j], yy); }
-      wx.stroke();
-    }
-    // bright outline with glow
-    wx.strokeStyle = 'rgba(228,222,255,' + Math.min(.95, .5 + p * .4).toFixed(3) + ')';
-    wx.lineWidth = 1.6;
-    wx.shadowBlur = 14;
-    wx.shadowColor = 'rgba(160,140,255,.85)';
-    for (side = -1; side <= 1; side += 2) {
-      wx.beginPath();
-      for (j = 0; j < nx; j++) { var y2 = cy + side * amp[j] * lensH; if (j === 0) wx.moveTo(xs[j], y2); else wx.lineTo(xs[j], y2); }
-      wx.stroke();
-    }
-    wx.shadowBlur = 0;
-
-    for (var l = 0; l < 13; l++) {
-      wx.beginPath();
-      var ix = 0;
-      for (var xx = -20; xx < w + 20; xx += step, ix++) {
-        var q = (xx - w * .08) / (w * .84);
-        var sq = Math.sin(q * Math.PI);
-        var e = Math.pow(Math.max(0, sq), .72);
-        var si = q <= 0 ? 0 : (q >= 1 ? SPEC_N - 1 : (q * (SPEC_N - 1)) | 0);
-        var boost = 1 + spec[si] * .45;
-        var y = cy + (
-          Math.sin(q * 9.2  - tmWave * .72 + l * .075) * (.62 + st.bass * .5) +
-          Math.sin(q * 20.5 + tmWave * .42 + l * .13)  * (.22 + st.mid  * .34) +
-          Math.sin(q * 37   - tmWave * .3  + l)        * (.08 + st.high * .3) +
-          sq * p * .42
-        ) * e * boost * h * .27 * s
-          + ((l - 6) / 6) * amp[ix] * lensH * .55;   // lines fan out on the kick
-        if (xx === -20) wx.moveTo(xx, y); else wx.lineTo(xx, y);
-      }
-      wx.strokeStyle = 'rgba(239,238,255,' + Math.min(.6, (0.12 + (12 - l) * .018) * glow) + ')';
-      wx.lineWidth = l === 5 ? 1.9 : .85;
-      wx.shadowBlur = l === 5 ? 16 : 0;
-      wx.shadowColor = 'rgba(208,204,255,.5)';
-      wx.stroke();
-    }
-
-    // central "kick" line
-    var k = h * (.05 + p * .13);
-    var g = wx.createLinearGradient(w / 2, cy - k, w / 2, cy + k);
-    g.addColorStop(0, 'rgba(255,255,255,0)');
-    g.addColorStop(.5, 'rgba(255,255,255,' + Math.min(.9, .3 + p * .62) + ')');
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    wx.shadowBlur = 0;
-    wx.strokeStyle = g;
-    wx.lineWidth = 1 + p * 2;
-    wx.beginPath();
-    wx.moveTo(w / 2, cy - k);
-    wx.lineTo(w / 2, cy + k);
-    wx.stroke();
-
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-
-  // ----- mobile menu -----
+  var KEYS = ['home', 'out-now', 'music', 'artists', 'youtube', 'label', 'merch', 'wallpapers', 'contact'];
+  var GROUP = { youtube: 'submission', label: 'submission' };
   var menuBtn = document.getElementById('menuBtn');
   var nav = document.getElementById('nav');
+  var firstRoute = true;
+
+  function currentKey() {
+    var k = location.hash.replace(/^#\/?/, '');
+    return KEYS.indexOf(k) > -1 ? k : 'home';
+  }
+
+  function route(fromClick) {
+    var key = currentKey();
+
+    var views = document.querySelectorAll('.view');
+    for (var i = 0; i < views.length; i++) views[i].hidden = (views[i].id !== 'view-' + key);
+
+    if (FRAMES[key]) {
+      var ifr = document.querySelector('#view-' + key + ' iframe');
+      if (ifr && !ifr.getAttribute('src')) ifr.setAttribute('src', ifr.getAttribute('data-src'));
+    }
+
+    var links = document.querySelectorAll('a[data-route]');
+    var group = GROUP[key] || '';
+    for (var j = 0; j < links.length; j++) {
+      var on = links[j].getAttribute('data-route') === key ||
+               (links[j].getAttribute('data-group') && links[j].getAttribute('data-group') === group);
+      links[j].classList.toggle('is-active', !!on);
+      if (on) links[j].setAttribute('aria-current', 'page'); else links[j].removeAttribute('aria-current');
+    }
+
+    // open the page right under the line below the newest release
+    if (key === 'home') {
+      if (!firstRoute) window.scrollTo({ top: 0 });
+    } else {
+      var top = document.getElementById('viewTop');
+      if (top.scrollIntoView) top.scrollIntoView({ block: 'start' });
+    }
+    if (fromClick) {
+      var target = document.getElementById('view-' + key);
+      if (target && target.focus) { try { target.focus({ preventScroll: true }); } catch (e) {} }
+    }
+    firstRoute = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[data-route]') : null;
+    if (!a) return;
+    e.preventDefault();
+    var target = '#/' + a.getAttribute('data-route');
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    if (location.hash === target || (!location.hash && target === '#/home')) route(true);
+    else location.hash = target;   // hashchange -> route(); no page load
+  });
+  window.addEventListener('hashchange', function () { route(true); });
+  route(false);
+
   menuBtn.addEventListener('click', function () {
     var open = nav.classList.toggle('open');
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
